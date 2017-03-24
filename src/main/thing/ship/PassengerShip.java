@@ -13,10 +13,10 @@ public class PassengerShip extends Ship {
     int numberOfPassengers;
     int numberOfRooms;
 
-    public PassengerShip(String name, int index, int parent, PortTime arrivalTime, PortTime dockTime, double draft,
-                         double length, double weight, double width, ArrayList jobs, int numberOfOccupiedRooms,
-                         int numberOfPassengers, int numberOfRooms) {
-        super(name, index, parent, arrivalTime, dockTime, draft, length, weight, width, jobs);
+
+    public PassengerShip(String name, int index, int parent, double weight, double length, double width, double draft,
+                         int numberOfPassengers, int numberOfRooms, int numberOfOccupiedRooms) {
+        super(name, index, parent, weight, length, width, draft);
         this.numberOfOccupiedRooms = numberOfOccupiedRooms;
         this.numberOfPassengers = numberOfPassengers;
         this.numberOfRooms = numberOfRooms;

@@ -3,21 +3,23 @@ package main.thing;
 import main.portTime.PortTime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by vanwinklej on 3/21/17.
  */
 public class World extends Thing {
-    private ArrayList<SeaPort> ports;
+    private Map<Integer, SeaPort> ports;
     private PortTime time;
 
     public World() {
         super("World", 0, -1);
-        ports = new ArrayList<>();
+        ports = new HashMap<>();
         time = new PortTime(0);
     }
 
-    public ArrayList<SeaPort> getPorts() {
+    public Map<Integer, SeaPort> getPorts() {
         return ports;
     }
 
@@ -25,7 +27,7 @@ public class World extends Thing {
         return time;
     }
 
-    public boolean addPort(SeaPort port) {
-        return ports.add(port);
+    public SeaPort addPort(SeaPort port) {
+        return ports.put(port.getIndex(), port);
     }
 }

@@ -18,15 +18,13 @@ public class Ship extends Thing {
             , width;
     ArrayList<Job> jobs;
 
-    public Ship(String name, int index, int parent, PortTime arrivalTime, PortTime dockTime, double draft,
-                double length, double weight, double width, ArrayList jobs) {
+    public Ship(String name, int index, int parent, double weight, double length, double width, double draft) {
         super(name, index, parent);
-        this .arrivalTime = arrivalTime;
-        this.dockTime = dockTime;
-        this.draft = draft;
-        this.length = length;
         this.weight = weight;
+        this.length = length;
         this.width = width;
-        this.jobs = jobs;
+        this.draft = draft;
     }
+
 }
+

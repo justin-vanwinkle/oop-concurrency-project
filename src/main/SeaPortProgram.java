@@ -3,6 +3,7 @@ package main;
 import main.thing.Dock;
 import main.thing.SeaPort;
 import main.thing.World;
+import main.thing.ship.PassengerShip;
 import main.ui.SeaPortUI;
 
 import java.io.BufferedReader;
@@ -13,7 +14,7 @@ import java.util.StringTokenizer;
 
 public class SeaPortProgram {
 
-    World world;
+    private World world;
 
     public SeaPortProgram() {
         world = new World();
@@ -45,20 +46,34 @@ public class SeaPortProgram {
         return lines;
     }
 
-    private boolean appendObjectFromDefinition(String line) {
+    public void appendObjectFromDefinition(String line) {
         StringTokenizer st = new StringTokenizer(line);
+
 
         switch (st.nextToken()) {
             case "port":
-                this.world.addPort(
-                        SeaPort( st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()))
-                );
-                break;
+                this.getWorld().addPort(
+                        new SeaPort(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()))
+                    );
             case "dock":
-                this.world.getPorts() Dock(st.nextToken(), Integer.parseInt(st.nextToken(), Integer.parseInt(st.nextToken())));
-
+                // create the dock
+//                Dock dock = new Dock(st.nextToken(), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+                // append it to the port
+//                return this.getWorld().getPorts().get(dock.getParent()).addDock(dock);
+            case "pship":
+//                PassengerShip ship = new PassengerShip(
+//                        st.nextToken()
+//                        , Integer.parseInt(st.nextToken())
+//                        , Integer.parseInt(st.nextToken())
+//                        , Double.parseDouble(st.nextToken())
+//                        , Double.parseDouble(st.nextToken())
+//                        , Double.parseDouble(st.nextToken())
+//                        , Double.parseDouble(st.nextToken())
+//                        , Integer.parseInt(st.nextToken())
+//                        , Integer.parseInt(st.nextToken())
+//                        , Integer.parseInt(st.nextToken()));
+//                SeaPort port = this.world.getPorts().f
         }
-
     }
 
     public static void main(String[] args) {
@@ -75,4 +90,7 @@ public class SeaPortProgram {
 //        System.out.println(objectDefs);
     }
 
+    public World getWorld() {
+        return world;
+    }
 }

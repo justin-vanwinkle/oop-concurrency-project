@@ -12,10 +12,10 @@ public class CargoShip extends Ship {
     double cargoVolume;
     double cargoWeight;
 
-    public CargoShip(String name, int index, int parent, PortTime arrivalTime, PortTime dockTime, double draft,
-                     double length, double weight, double width, ArrayList jobs, double cargoValue, double cargoVolume,
-                     double cargoWeight) {
-        super(name, index, parent, arrivalTime, dockTime, draft, length, weight, width, jobs);
+
+    public CargoShip(String name, int index, int parent, double weight, double length, double width, double draft,
+                         int cargoValue, int cargoVolume, int cargoWeight) {
+        super(name, index, parent, weight, length, width, draft);
         this.cargoValue = cargoValue;
         this.cargoVolume = cargoVolume;
         this.cargoWeight = cargoWeight;
