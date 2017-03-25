@@ -21,4 +21,9 @@ public class PassengerShip extends Ship {
         this.numberOfPassengers = numberOfPassengers;
         this.numberOfRooms = numberOfRooms;
     }
+
+    @Override
+    public String toString() {
+        return "Passenger ship: " + getName() + " " + getIndex();
+    }
 }

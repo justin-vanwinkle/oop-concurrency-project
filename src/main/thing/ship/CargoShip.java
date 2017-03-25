@@ -14,10 +14,15 @@ public class CargoShip extends Ship {
 
 
     public CargoShip(String name, int index, int parent, double weight, double length, double width, double draft,
-                         int cargoValue, int cargoVolume, int cargoWeight) {
+                         double cargoValue, double cargoVolume, double cargoWeight) {
         super(name, index, parent, weight, length, width, draft);
         this.cargoValue = cargoValue;
         this.cargoVolume = cargoVolume;
         this.cargoWeight = cargoWeight;
+    }
+
+    @Override
+    public String toString() {
+        return "Cargo ship: " + getName() + " " + getIndex();
     }
 }

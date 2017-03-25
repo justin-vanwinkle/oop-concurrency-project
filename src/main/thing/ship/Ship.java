@@ -26,5 +26,13 @@ public class Ship extends Thing {
         this.draft = draft;
     }
 
+    public boolean addJob(Job job) {
+        return jobs.add(job);
+    }
+
+    @Override
+    public String toString() {
+        return "Ship: " + toString();
+    }
 }
 

@@ -42,7 +42,7 @@ class SeaPortProgramTest extends GroovyTestCase {
 
         // port
         SeaPort expected = new SeaPort("Kandahar", 10002, 0);
-        spp.appendObjectFromDefinition("port Kandahar 10002 0")
+        //spp.createThingFromDefinition("port Kandahar 10002 0")
         SeaPort result = spp.getWorld().getPorts().get(10002)
         assertEquals(expected.toString(), result.toString())
 

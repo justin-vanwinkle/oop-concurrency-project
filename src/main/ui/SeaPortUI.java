@@ -132,11 +132,8 @@ public class SeaPortUI {
             JFileChooser fc = new JFileChooser(new java.io.File("."));
             fc.showDialog(frame, "Open");
 
-            ArrayList<String> objDefs = parseObjectDefinitions(fc.getSelectedFile().getPath());
+            spp.createWorld(fc.getSelectedFile().getPath());
 
-            for(String def: objDefs) {
-                spp.appendObjectFromDefinition(def);
-            }
         }
     }
 }

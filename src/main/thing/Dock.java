@@ -1,5 +1,7 @@
 package main.thing;
 
+import main.thing.ship.CargoShip;
+import main.thing.ship.PassengerShip;
 import main.thing.ship.Ship;
 
 /**
@@ -19,5 +21,22 @@ public class Dock extends Thing {
 
     public void setShip(Ship ship) {
         this.ship = ship;
+    }
+
+    @Override
+    public boolean addChild(Thing child) {
+        if (child instanceof Ship) {
+            ship = (Ship) child;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Dock: ");
+        sb.append(getName() + " ");
+        sb.append(getIndex() + "\n");
+        sb.append("\t" + ship);
+        return sb.toString() ;
     }
 }
