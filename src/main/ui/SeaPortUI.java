@@ -54,10 +54,11 @@ public class SeaPortUI {
         frame.add(initPanel(), BorderLayout.NORTH);
         // add scroll pane
         txtOutputArea = new JTextArea();
+        txtOutputArea.setFont(new Font("Monospaced", 0, 12));
         frame.add(new JScrollPane( txtOutputArea ));
         // set default close action
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+        // set frame size
         frame.setPreferredSize(new Dimension(500,900));
         return frame;
     }
@@ -84,6 +85,7 @@ public class SeaPortUI {
         btnSearch = new JButton("Search");
         txtSearch = new JTextField();
 
+        // add components to panel
         addComponent(1,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.EAST, btnPanel, btnFileSelect);
         addComponent(0,1,1,1,1,1,GridBagConstraints.BOTH, GridBagConstraints.CENTER, btnPanel, txtSearch);
         addComponent(1,1,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnSearch);

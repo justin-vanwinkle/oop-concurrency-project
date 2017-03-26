@@ -1,5 +1,7 @@
 package main.thing;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by vanwinklej on 3/21/17.
  */
@@ -13,7 +15,12 @@ public class Person extends Thing {
 
     @Override
     public boolean checkForMatch(String pattern) {
-        if (skill.contains(pattern)) {
+        Pattern r = Pattern.compile(pattern);
+
+        if (r.matcher(skill).find()) {
+            return true;
+        }
+        if (super.checkForMatch(pattern)) {
             return true;
         }
 

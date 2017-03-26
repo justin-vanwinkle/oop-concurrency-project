@@ -9,4 +9,9 @@ public class PortTime {
     public PortTime(int time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "Port Time: " + time;
+    }
 }

@@ -1,5 +1,8 @@
 package main.thing;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by vanwinklej on 3/21/17.
  */
@@ -22,10 +25,12 @@ public class Thing implements Comparable<Thing> {
     }
 
     public boolean checkForMatch(String pattern) {
-        if (name.contains(pattern)) {
+        Pattern r = Pattern.compile(pattern);
+
+        if (r.matcher(name).find()) {
             return true;
         }
-        if (Integer.toString(index).contains(pattern)) {
+        if (r.matcher( Integer.toString(index) ).find()) {
             return true;
         }
         return false;
@@ -54,6 +59,6 @@ public class Thing implements Comparable<Thing> {
 
     @Override
     public String toString() {
-        return name + " " + index;
+        return name + " " + index + " ";
     }
 }

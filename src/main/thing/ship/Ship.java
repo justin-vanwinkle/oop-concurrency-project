@@ -5,6 +5,7 @@ import main.thing.Job;
 import main.thing.Thing;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by vanwinklej on 3/21/17.
@@ -26,9 +27,15 @@ public class Ship extends Thing {
         this.draft = draft;
     }
 
+
     @Override
     public boolean checkForMatch(String pattern) {
         //TODO search on times once they are implemented
+
+        if (super.checkForMatch(pattern)) {
+            return true;
+        }
+
         return false;
     }
 

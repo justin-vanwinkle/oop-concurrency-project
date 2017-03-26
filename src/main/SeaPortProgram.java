@@ -3,21 +3,19 @@ package main;
 import main.thing.*;
 import main.thing.ship.CargoShip;
 import main.thing.ship.PassengerShip;
-import main.thing.ship.Ship;
 import main.ui.SeaPortUI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class SeaPortProgram {
 
     private World world;
 
     public SeaPortProgram() {
-        world = new World();
         SeaPortUI ui = new SeaPortUI(this);
     }
 
@@ -47,70 +45,74 @@ public class SeaPortProgram {
     }
 
     public Thing createThingFromDefinition(String definition) {
-        StringTokenizer st = new StringTokenizer(definition);
+        Scanner sc = new Scanner(definition);
+        //StringTokenizer st = new StringTokenizer(definition);
 
-        switch (st.nextToken()) {
+        switch (sc.next()) {
             case "port":
                 return new SeaPort(
-                        st.nextToken()
-                        , Integer.parseInt(st.nextToken())
-                        , Integer.parseInt(st.nextToken()));
+                        sc.next()
+                        , sc.nextInt()
+                        , sc.nextInt());
+//                        sc.next()
+//                        , sc.nextInt()
+//                        , sc.nextInt());
 
             case "dock":
                 // create the dock
                 return new Dock(
-                        st.nextToken()
-                        , Integer.parseInt(st.nextToken())
-                        , Integer.parseInt(st.nextToken())
+                        sc.next()
+                        , sc.nextInt()
+                        , sc.nextInt()
                 );
 
             case "pship":
                 return new PassengerShip(
-                        st.nextToken()
-                        , Integer.parseInt(st.nextToken())
-                        , Integer.parseInt(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Integer.parseInt(st.nextToken())
-                        , Integer.parseInt(st.nextToken())
-                        , Integer.parseInt(st.nextToken())
+                        sc.next()
+                        , sc.nextInt()
+                        , sc.nextInt()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextInt()
+                        , sc.nextInt()
+                        , sc.nextInt()
                 );
 
             case "cship":
                 return new CargoShip(
-                        st.nextToken()
-                        , Integer.parseInt(st.nextToken())
-                        , Integer.parseInt(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
-                        , Double.parseDouble(st.nextToken())
+                        sc.next()
+                        , sc.nextInt()
+                        , sc.nextInt()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
+                        , sc.nextDouble()
                 );
 
             case "person":
                 return new Person(
-                        st.nextToken()
-                        , Integer.parseInt(st.nextToken())
-                        , Integer.parseInt(st.nextToken())
-                        , st.nextToken()
+                        sc.next()
+                        , sc.nextInt()
+                        , sc.nextInt()
+                        , sc.next()
                 );
 
             case "job":
                 // collect params
-                String name = st.nextToken();
-                int index = Integer.parseInt(st.nextToken());
-                int parent = Integer.parseInt(st.nextToken());
-                double duration = Double.parseDouble(st.nextToken());
+                String name = sc.next();
+                int index = sc.nextInt();
+                int parent = sc.nextInt();
+                double duration = sc.nextDouble();
 
                 // build the list of required skills
                 ArrayList<String> skill = new ArrayList<>();
-                while (st.hasMoreTokens()) {
-                    skill.add(st.nextToken());
+                while (sc.hasNext()) {
+                    skill.add(sc.next());
                 }
 
                 // create the job
@@ -121,6 +123,7 @@ public class SeaPortProgram {
 
 
     public void createWorld(String filepath) {
+        world = new World();
 
         ArrayList<String> objDefs = parseObjectDefinitions(filepath);
 
@@ -132,8 +135,6 @@ public class SeaPortProgram {
             world.addThing(thing);
 
         }
-
-        System.out.println(this.getWorld().toString());
     }
 
 

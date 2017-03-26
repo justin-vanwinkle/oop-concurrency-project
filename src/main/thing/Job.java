@@ -1,6 +1,7 @@
 package main.thing;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by vanwinklej on 3/21/17.
@@ -9,7 +10,7 @@ public class Job extends Thing {
     double duration;
     ArrayList<String> requirements = new ArrayList<>();
 
-    public Job(String name, int index, int parent, double duration, ArrayList requirements) {
+    public Job(String name, int index, int parent, double duration, ArrayList<String> requirements) {
         super(name, index, parent);
         this.duration = duration;
         this.requirements = requirements;
@@ -17,11 +18,13 @@ public class Job extends Thing {
 
     @Override
     public boolean checkForMatch(String pattern) {
-        if (Double.toString(duration).contains(pattern)) {
+        Pattern r = Pattern.compile(pattern);
+
+        if (r.matcher( Double.toString(duration) ).find()) {
             return true;
         }
         for (String req : requirements) {
-            if (req.contains(pattern)) {
+            if (r.matcher(req).find()) {
                 return true;
             }
         }

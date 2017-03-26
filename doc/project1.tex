@@ -1,0 +1,320 @@
+\documentclass[english,man]{apa6}
+
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+
+% Table formatting
+\usepackage{longtable, booktabs}
+\usepackage{lscape}
+% \usepackage[counterclockwise]{rotating}   % Landscape page setup for large tables
+\usepackage{multirow}		% Table styling
+\usepackage{tabularx}		% Control Column width
+\usepackage[flushleft]{threeparttable}	% Allows for three part tables with a specified notes section
+\usepackage{threeparttablex}            % Lets threeparttable work with longtable
+
+% Create new environments so endfloat can handle them
+% \newenvironment{ltable}
+%   {\begin{landscape}\begin{center}\begin{threeparttable}}
+%   {\end{threeparttable}\end{center}\end{landscape}}
+
+\newenvironment{lltable}
+  {\begin{landscape}\begin{center}\begin{ThreePartTable}}
+  {\end{ThreePartTable}\end{center}\end{landscape}}
+
+  \usepackage{ifthen} % Only add declarations when endfloat package is loaded
+  \ifthenelse{\equal{\string man}{\string man}}{%
+   \DeclareDelayedFloatFlavor{ThreePartTable}{table} % Make endfloat play with longtable
+   % \DeclareDelayedFloatFlavor{ltable}{table} % Make endfloat play with lscape
+   \DeclareDelayedFloatFlavor{lltable}{table} % Make endfloat play with lscape & longtable
+  }{}%
+
+
+
+% The following enables adjusting longtable caption width to table width
+% Solution found at http://golatex.de/longtable-mit-caption-so-breit-wie-die-tabelle-t15767.html
+\makeatletter
+\newcommand\LastLTentrywidth{1em}
+\newlength\longtablewidth
+\setlength{\longtablewidth}{1in}
+\newcommand\getlongtablewidth{%
+ \begingroup
+  \ifcsname LT@\roman{LT@tables}\endcsname
+  \global\longtablewidth=0pt
+  \renewcommand\LT@entry[2]{\global\advance\longtablewidth by ##2\relax\gdef\LastLTentrywidth{##2}}%
+  \@nameuse{LT@\roman{LT@tables}}%
+  \fi
+\endgroup}
+
+
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            pdfauthor={},
+            pdftitle={Project 1: Sea Port Program},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=black,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setlength{\parindent}{0pt}
+%\setlength{\parskip}{0pt plus 0pt minus 0pt}
+
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+
+\ifxetex
+  \usepackage{polyglossia}
+  \setmainlanguage{}
+\else
+  \usepackage[english]{babel}
+\fi
+
+% Manuscript styling
+\captionsetup{font=singlespacing,justification=justified}
+\usepackage{csquotes}
+\usepackage{upgreek}
+
+
+
+\usepackage{tikz} % Variable definition to generate author note
+
+% fix for \tightlist problem in pandoc 1.14
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Essential manuscript parts
+  \title{Project 1: Sea Port Program}
+
+  \shorttitle{Project 1}
+
+
+  \author{Justin VanWinkle\textsuperscript{1,2}}
+
+  \def\affdep{{""}}%
+  \def\affcity{{""}}%
+
+  \affiliation{
+    \vspace{0.5cm}
+          \textsuperscript{1} University of Maryland University College\\
+          \textsuperscript{2} Wycliffe Associates, Inc.  }
+
+ % If no author_note is defined give only author information if available
+    \authornote{
+    \newcounter{author}
+                      Correspondence concerning this article should be addressed to Justin VanWinkle, 281 4th St, Geneva, FL. E-mail: \href{mailto:justin@swissarmydev.com}{\nolinkurl{justin@swissarmydev.com}}
+                }
+  
+
+  \abstract{This paper is dedicated to a project developed in a course on
+object-oriented programming and concurrency. It explores the decisions
+made while designing the program, the way a user should go about making
+use of the program, standard practices for testing the program, lessons
+learned while}
+  \keywords{java,object-oriented, \\
+
+    \indent Word count: X
+  }
+
+
+
+
+
+\begin{document}
+
+\maketitle
+
+\setcounter{secnumdepth}{0}
+
+
+
+\section{Design}\label{design}
+
+From a high level, this program has been built with a class that
+contains the UI separate from any workflow logic. This paves the way for
+several simplistic approaches when concurrency is included into the
+program in a future iteration. One such example would be creating the
+world using a thread that is separate from that of the Event Dispatch
+Thread that would be used by default when calling a function from an
+event listener that is attached to a swing component. Such a separation
+becomes easily manageable when business logic and view logic remain
+isolated.
+
+\subsection{Decisions}\label{decisions}
+
+\begin{itemize}
+\tightlist
+\item
+  It was determined that all classes that are representative of objects
+  in the input file would not instantiate a scanner so as to prevent
+  repetitive code across classes and also to prevent each class from
+  needing to know how its definition is formed in the input file. This
+  loosens the coupling in such a way that eases changes as a result of
+  changes in the structure of the input file.
+\end{itemize}
+
+\subsection{UML Diagram}\label{uml-diagram}
+
+Diagram
+
+\subsection{Meanings}\label{meanings}
+
+The various classes, packages, variables, and methods in this program
+are organized in a logical manner that show good practices in
+object-oriented design. Each of the items has been placed in such a way
+that it has some sort of direct relationship with its containing parent
+or its contained child.
+
+\subsubsection{Classes}\label{classes}
+
+All classes assume no knowledge of their calling class whether by
+passing context or interface. This is likely to change in a future
+iteration, however.
+
+\paragraph{\texorpdfstring{The \emph{Thing}
+Package}{The Thing Package}}\label{the-thing-package}
+
+Each class in the \emph{thing} package as well as classes in the sub
+packages of \emph{thing} represent real world objects that reflect their
+name.
+
+\paragraph{Other Classes}\label{other-classes}
+
+The PortTime class, in a similar manner represents the time of a port.
+Due to ambiguous requirements, however, the developer was unable to
+determine the intended use of this class. Therefore, it is assumed that
+this class will be better integrated in a future iteration.
+
+\subsubsection{Variables}\label{variables}
+
+In each class, there are sets of instance variables that represent a
+\emph{has-a} relationship between the class and the item that variable
+holds. For instance, a SeaPort has a (or many) Dock(s).
+
+\subsubsection{Methods}\label{methods}
+
+The SeaPortProgram class contains the heart of creating the world
+including all of the logic for parsing out the input file, creating the
+objects, and modeling a world that represents what is defined in the
+input file. While the requirement documentation \emph{suggests} that a
+scanner should be used, a string tokenizer was used instead. While this
+adds some additional coding overhead,
+
+\subsection{Project Requirements}\label{project-requirements}
+
+\section{User's Guide}\label{users-guide}
+
+\subsection{How to start the program}\label{how-to-start-the-program}
+
+\subsection{How to create a world}\label{how-to-create-a-world}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Click \enquote{Select File}.
+\item
+  Navigate to and select a valid input file.
+\item
+  Select \enquote{Open}.
+\item
+  World is automatically modeled. Notice the output that matches the
+  data in the chosen input file.
+\end{enumerate}
+
+\subsection{Search}\label{search}
+
+Searches using regex allow for more control over the matching pattern.
+As a result, searches are made to iterate over the entire set of objects
+that exist in the world.
+
+\subsubsection{How to search}\label{how-to-search}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Input a valid java regex engine pattern in the search box. (Valid
+  regex patterns for the java regex engine can be obtained
+  \href{http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html}{Here}.
+\item
+  Click \enquote{Search}. Searching returns a list of all \emph{Things}
+  that have a Name or Index that match the criteria. Some additional
+  cases exist such as searching the skills of a Person or the duration
+  of a Job.
+\end{enumerate}
+
+\subsubsection{Examples}\label{examples}
+
+\begin{itemize}
+\tightlist
+\item
+  Search Pattern: \enquote{ar}
+\item
+  Matches \enquote{Sara}
+\item
+  Does not Match \enquote{Archie}
+\item
+  Search Pattern: \enquote{{[}A\textbar{}a{]}r}
+\item
+  Matches \enquote{Sara} and \enquote{Archie} For more extended
+  documentation on regex patterns,
+  \href{http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html}{go
+  here}
+\end{itemize}
+
+\subsection{Special Features}\label{special-features}
+
+\section{Test Plan}\label{test-plan}
+
+\section{Lessons Learned}\label{lessons-learned}
+
+\subsection{About This Documentation}\label{about-this-documentation}
+
+Since discovering Pandoc, I have written all of my professional
+documentation and papers in markdown and used Pandoc to convert them to
+whatever end format I require. Markdown allows me to focus on content
+rather than formatting and thus saves great amounts of time. One
+particular hurdle in writing this documentation was finding a way to use
+\LaTeX~
+
+\subsection{New Classes Used}\label{new-classes-used}
+
+While I purposefully avoid Java's built in UI libraries, it came as no
+surprise when I found myself using the JScrollPane class for the first
+time in this program. I did find JScrollPane to be comparatively easy to
+work with for the sake of just getting a scroll view set up.
+
+\subsection{Future Iterations}\label{future-iterations}
+
+\setlength{\parindent}{-0.5in} \setlength{\leftskip}{0.5in}
+
+
+
+
+
+
+\end{document}

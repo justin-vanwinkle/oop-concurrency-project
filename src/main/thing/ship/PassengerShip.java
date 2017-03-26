@@ -20,6 +20,17 @@ public class PassengerShip extends Ship {
     }
 
     @Override
+    public boolean checkForMatch(String pattern) {
+        //TODO search on times once they are implemented
+
+        if (super.checkForMatch(pattern)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Passenger ship: " + super.toString());
 

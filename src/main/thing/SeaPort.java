@@ -36,7 +36,7 @@ public class SeaPort extends Thing {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("\n\nSeaPort: " + super.toString() + "\n");
+        StringBuilder sb = new StringBuilder("\n\n\nSeaPort: " + super.toString() + "\n");
 
         docks.forEach((k,v)->sb.append("\n " + v.toString()));
 
