@@ -41,4 +41,9 @@ public class Thing implements Comparable<Thing> {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + index;
+    }
 }

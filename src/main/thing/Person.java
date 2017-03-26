@@ -13,10 +13,6 @@ public class Person extends Thing {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("Person: ");
-        sb.append(getName() + " ");
-        sb.append(getIndex() + " ");
-        sb.append(skill);
-        return sb.toString();
+        return "Person: " + super.toString() + " " + skill;
     }
 }

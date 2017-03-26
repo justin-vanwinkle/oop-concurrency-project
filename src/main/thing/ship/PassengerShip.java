@@ -1,9 +1,6 @@
 package main.thing.ship;
 
-import main.portTime.PortTime;
-import main.thing.Thing;
-
-import java.util.ArrayList;
+import main.thing.Job;
 
 /**
  * Created by vanwinklej on 3/21/17.
@@ -24,6 +21,11 @@ public class PassengerShip extends Ship {
 
     @Override
     public String toString() {
-        return "Passenger ship: " + getName() + " " + getIndex();
+        StringBuilder sb = new StringBuilder("Passenger ship: " + super.toString());
+
+            for (Job job : getJobs()) {
+                sb.append("\n" + job);
+            }
+        return sb.toString();
     }
 }

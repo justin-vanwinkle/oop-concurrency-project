@@ -16,7 +16,7 @@ public class Ship extends Thing {
             , length
             , weight
             , width;
-    ArrayList<Job> jobs;
+    private ArrayList<Job> jobs = new ArrayList<>();
 
     public Ship(String name, int index, int parent, double weight, double length, double width, double draft) {
         super(name, index, parent);
@@ -27,12 +27,16 @@ public class Ship extends Thing {
     }
 
     public boolean addJob(Job job) {
-        return jobs.add(job);
+        return getJobs().add(job);
     }
 
     @Override
     public String toString() {
-        return "Ship: " + toString();
+        return super.toString();
+    }
+
+    public ArrayList<Job> getJobs() {
+        return jobs;
     }
 }
 

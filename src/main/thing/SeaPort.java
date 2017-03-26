@@ -4,10 +4,7 @@ import main.thing.ship.CargoShip;
 import main.thing.ship.PassengerShip;
 import main.thing.ship.Ship;
 
-import javax.print.Doc;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by vanwinklej on 3/21/17.
@@ -23,29 +20,42 @@ public class SeaPort extends Thing {
     }
 
     public void addDock(Dock dock) {
-        getDocks().put(dock.getParentId(), dock);
+        getDocks().put(dock.getIndex(), dock);
     }
 
     public void addShip(Ship ship) {
-        getShips().put(ship.getParentId(), ship);
+        getShips().put(ship.getIndex(), ship);
+        if (!docks.containsKey(ship.getParentId())) {
+            que.add(ship);
+        }
     }
 
     public void addPerson(Person person) {
-        getPersons().put(person.getParentId(), person);
+        getPersons().put(person.getIndex(), person);
     }
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder("\n\nSeaPort: " + super.toString() + "\n");
 
-        StringBuilder sb = new StringBuilder("Sea Port: ");
-        sb.append(getName() + " ");
-        sb.append(getIndex());
+        docks.forEach((k,v)->sb.append("\n " + v.toString()));
+
+        sb.append("\n\n --- List of all ships: in que:");
+        que.forEach(ship->sb.append("\n  > " + ship.toString()));
+
+        sb.append("\n\n --- List of all ships:");
+        Map<Integer, Thing> sortedShips = new TreeMap<>(ships);
+        sortedShips.forEach((k,v)->sb.append("\n  > " + v.toString()));
+
+        sb.append("\n\n --- List of all persons:");
+        persons.forEach((k,v)->sb.append("\n  > " + v.toString()));
+
         return sb.toString();
     }
 
     @Override
     public boolean addChild(Thing child) {
-        if(child instanceof CargoShip || child instanceof PassengerShip) {
+        if(child instanceof Ship) {
             addShip( (Ship)child );
         }
         else if(child instanceof Dock) {

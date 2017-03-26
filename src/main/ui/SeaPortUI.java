@@ -4,13 +4,9 @@ import main.SeaPortProgram;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
-import static main.SeaPortProgram.parseObjectDefinitions;
 
 /**
  * Created by vanwinklej on 3/23/17.
@@ -20,8 +16,9 @@ public class SeaPortUI {
     private SeaPortProgram spp;
 
     private JFrame frame;
-    private JPanel panel;
+    private JPanel btnPanel;
     private JButton btnFileSelect;
+    private JTextArea txtOutputArea;
 
     public SeaPortUI(SeaPortProgram spp) {
         this.spp = spp;
@@ -36,7 +33,7 @@ public class SeaPortUI {
     private void init() {
         initFrame();
         initComponents();
-        frame.setResizable(false);
+        frame.setResizable(true);
         // auto-size to squeeze everything as tight as it will go
         frame.pack();
         // make it all visible to the user
@@ -52,9 +49,14 @@ public class SeaPortUI {
         // instantiate borderlayout and assign it as the layout manager of frame
         frame.setLayout(new BorderLayout());
         // add pnlMain in frame at center
-        frame.add(initPanel(), BorderLayout.CENTER);
+        frame.add(initPanel(), BorderLayout.NORTH);
+        // add scroll pane
+        txtOutputArea = new JTextArea();
+        frame.add(new JScrollPane( txtOutputArea ));
         // set default close action
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame.setPreferredSize(new Dimension(500,900));
         return frame;
     }
 
@@ -63,12 +65,12 @@ public class SeaPortUI {
      */
     private JPanel initPanel() {
         // instantiate jpanel
-        panel = new JPanel();
+        btnPanel = new JPanel();
         // set padding for components
-        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        btnPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         // set layout
-        panel.setLayout((new GridBagLayout()));
-        return panel;
+        btnPanel.setLayout((new GridBagLayout()));
+        return btnPanel;
     }
 
     /**
@@ -78,7 +80,7 @@ public class SeaPortUI {
         // instantiate the components
         btnFileSelect = new JButton("Select File");
 
-        addComponent(0,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.CENTER, panel, btnFileSelect);
+        addComponent(0,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.CENTER, btnPanel, btnFileSelect);
 
         // add listeners
         btnFileSelect.addActionListener(new ButtonAction());
@@ -133,6 +135,8 @@ public class SeaPortUI {
             fc.showDialog(frame, "Open");
 
             spp.createWorld(fc.getSelectedFile().getPath());
+
+            txtOutputArea.setText(spp.getWorld().toString());
 
         }
     }

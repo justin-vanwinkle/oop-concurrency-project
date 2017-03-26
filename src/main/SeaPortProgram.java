@@ -119,108 +119,9 @@ public class SeaPortProgram {
         return null;
     }
 
-//    public void appendObjectFromDefinition(String line) {
-//        StringTokenizer st = new StringTokenizer(line);
-//
-//        Thing thing = new Thing();
-//
-//        switch (st.nextToken()) {
-//            case "port":
-//                thing = new SeaPort(
-//                        st.nextToken()
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken()));
-//                this.getWorld().addPort((SeaPort)thing);
-//
-//                break;
-//            case "dock":
-//                // create the dock
-//                thing = new Dock( st.nextToken()
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                );
-//                // append it to the port
-//                this.getWorld()
-//                        .getPorts()
-//                        .get( thing.getParentId() )
-//                        .addDock((Dock)thing);
-//                break;
-//            case "pship":
-//                thing = new PassengerShip(
-//                        st.nextToken()
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                );
-//                //TODO go to port OR dock
-//                world.getThing( thing.getParentId() ).addChild(thing);
-//                break;
-//
-//            case "cship":
-//                thing = new CargoShip(
-//                        st.nextToken()
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Double.parseDouble(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                );
-//
-//                // add this ship to its parent
-//                world.getThing( thing.getParentId() ).addChild(thing);
-//
-//                break;
-//
-//            case "person":
-//                thing = new Person(
-//                        st.nextToken()
-//                        , Integer.parseInt(st.nextToken())
-//                        , Integer.parseInt(st.nextToken())
-//                        , st.nextToken()
-//                );
-//
-//                // add the person to its parent
-//                ( (SeaPort)world.getThing( thing.getParentId() ) ).addPerson( (Person)thing );
-//                break;
-//
-//            case "job":
-//                // collect params
-//                String name = st.nextToken();
-//                int index = Integer.parseInt(st.nextToken());
-//                int parent = Integer.parseInt(st.nextToken());
-//                double duration = Double.parseDouble(st.nextToken());
-//
-//                // build the list of required skills
-//                ArrayList<String> skill = new ArrayList<>();
-//                while (st.hasMoreTokens()) {
-//                    skill.add(st.nextToken());
-//                }
-//
-//                // create the job
-//                thing = new Job( name, index, parent, duration, skill );
-//
-//                // add the job to its parent
-//                ( (Ship)world.getThing(thing.getParentId()) ).addJob( (Job)thing );
-//        }
-//
-//        // add this thing to our master set
-//        if (thing.getIndex() != -1) {
-//            getWorld().addThing(thing);
-//        }
-//        System.out.println(thing);
-//    }
 
     public void createWorld(String filepath) {
+
         ArrayList<String> objDefs = parseObjectDefinitions(filepath);
 
         for(String def: objDefs) {
@@ -230,28 +131,15 @@ public class SeaPortProgram {
             // add this thing to the master map
             world.addThing(thing);
 
-            // add this thing to its parent
-            world.getThing( thing.getParentId() ).addChild(thing);
-
-            System.out.println(thing.toString() + "\n\n");
         }
 
-        System.out.println(world.getThing(20000).getClass().getName());
-
+        System.out.println(this.getWorld().toString());
     }
+
 
     public static void main(String[] args) {
 
         SeaPortProgram spp = new SeaPortProgram();
-
-        // get the object defs
-        //ArrayList<String> objectDefs = parseObjectDefinitions("src/test/testParseObjectDefinitions.txt");
-
-        // build the objects one at a time
-//        for (String objectDef : objectDefs) {
-//            createThingFromDefinition(objectDef);
-//        }
-//        System.out.println(objectDefs);
     }
 
     public World getWorld() {

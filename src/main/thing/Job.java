@@ -15,4 +15,12 @@ public class Job extends Thing {
         this.requirements = requirements;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Job: " + super.toString() + duration);
+        for (String requirement: requirements) {
+            sb.append(" " + requirement);
+        }
+        return sb.toString();
+    }
 }
