@@ -12,6 +12,15 @@ public class Person extends Thing {
     }
 
     @Override
+    public boolean checkForMatch(String pattern) {
+        if (skill.contains(pattern)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public String toString() {
         return "Person: " + super.toString() + " " + skill;
     }

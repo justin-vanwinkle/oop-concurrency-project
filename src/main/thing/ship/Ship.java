@@ -26,6 +26,12 @@ public class Ship extends Thing {
         this.draft = draft;
     }
 
+    @Override
+    public boolean checkForMatch(String pattern) {
+        //TODO search on times once they are implemented
+        return false;
+    }
+
     public boolean addJob(Job job) {
         return getJobs().add(job);
     }

@@ -16,6 +16,19 @@ public class Job extends Thing {
     }
 
     @Override
+    public boolean checkForMatch(String pattern) {
+        if (Double.toString(duration).contains(pattern)) {
+            return true;
+        }
+        for (String req : requirements) {
+            if (req.contains(pattern)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Job: " + super.toString() + duration);
         for (String requirement: requirements) {

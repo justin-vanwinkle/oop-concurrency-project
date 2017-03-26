@@ -21,6 +21,16 @@ public class Thing implements Comparable<Thing> {
         this.name = name;
     }
 
+    public boolean checkForMatch(String pattern) {
+        if (name.contains(pattern)) {
+            return true;
+        }
+        if (Integer.toString(index).contains(pattern)) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean addChild(Thing child) {
         return false;
     }

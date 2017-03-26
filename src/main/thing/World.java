@@ -3,6 +3,7 @@ package main.thing;
 import main.portTime.PortTime;
 import main.thing.ship.Ship;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,19 @@ public class World extends Thing {
         ports = new HashMap<>();
         time = new PortTime(0);
         objects.put(0, this);
+    }
+
+    public ArrayList<Thing> search(String pattern) {
+        ArrayList<Thing> matches = new ArrayList<>();
+
+        for (Map.Entry<Integer, Thing> entry : objects.entrySet()) {
+            Thing thing = entry.getValue();
+            if ( thing.checkForMatch(pattern) ) {
+                matches.add(thing);
+            }
+        }
+
+        return matches;
     }
 
     public void addThing(Thing thing) {

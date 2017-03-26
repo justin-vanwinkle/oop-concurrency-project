@@ -1,12 +1,12 @@
 package main.ui;
 
 import main.SeaPortProgram;
+import main.thing.Thing;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Created by vanwinklej on 3/23/17.
@@ -18,6 +18,8 @@ public class SeaPortUI {
     private JFrame frame;
     private JPanel btnPanel;
     private JButton btnFileSelect;
+    private JButton btnSearch;
+    private JTextField txtSearch;
     private JTextArea txtOutputArea;
 
     public SeaPortUI(SeaPortProgram spp) {
@@ -79,11 +81,17 @@ public class SeaPortUI {
     private void initComponents() {
         // instantiate the components
         btnFileSelect = new JButton("Select File");
+        btnSearch = new JButton("Search");
+        txtSearch = new JTextField();
 
-        addComponent(0,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.CENTER, btnPanel, btnFileSelect);
+        addComponent(1,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.EAST, btnPanel, btnFileSelect);
+        addComponent(0,1,1,1,1,1,GridBagConstraints.BOTH, GridBagConstraints.CENTER, btnPanel, txtSearch);
+        addComponent(1,1,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnSearch);
+
 
         // add listeners
-        btnFileSelect.addActionListener(new ButtonAction());
+        btnFileSelect.addActionListener(e ->chooseFileAction());
+        btnSearch.addActionListener(e -> searchAction());
     }
 
     /**
@@ -120,24 +128,31 @@ public class SeaPortUI {
         aContainer.add(aComponent, c);
     }
 
-    /**
-     * This class is the action listener for building a directed graph
-     */
-    public class ButtonAction implements ActionListener {
-        /**
-         * This method handles the button click and delegates actions
-         *
-         * @param e ActionEvent
-         */
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JFileChooser fc = new JFileChooser(new java.io.File("."));
-            fc.showDialog(frame, "Open");
+    private void chooseFileAction() {
+        JFileChooser fc = new JFileChooser(new java.io.File("."));
+        fc.showDialog(frame, "Open");
 
-            spp.createWorld(fc.getSelectedFile().getPath());
+        spp.createWorld(fc.getSelectedFile().getPath());
 
-            txtOutputArea.setText(spp.getWorld().toString());
+        txtOutputArea.setText(spp.getWorld().toString());
 
-        }
     }
+
+    private void searchAction() {
+        String pattern = txtSearch.getText();
+        ArrayList<Thing> matches = spp.getWorld().search(pattern);
+
+        StringBuilder sb = new StringBuilder("");
+        sb.append("Matches:\n");
+
+        for(Thing match : matches) {
+            sb.append("--------------------------------\n\nMatch:\n");
+            sb.append(match + "\n\n");
+        }
+
+        sb.append("--------------------------------\nEnd Matches\n");
+
+        txtOutputArea.setText(sb.toString());
+    }
+
 }
