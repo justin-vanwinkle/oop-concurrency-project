@@ -6,10 +6,6 @@ port Kandahar 10002 0
 // dock <string> <int> <int>
 dock Pier_5 20005 10001 30005
 
-// ship name index parent(dock/port) weight length width draft
-// ship <string> <int> <int> <double> <double> <double> <double>
- ship Reason 40003 10000 165.91 447.15 85.83 27.07
-
 // cship name index parent(dock/port) weight length width draft cargoWeight cargoVolume cargoValue
 // cship <string> <int> <int> <double> <double> <double> <double> <double> <double> <double>
  cship Suites 40003 10000 165.91 447.15 85.83 27.07 125.09 176.80 857.43

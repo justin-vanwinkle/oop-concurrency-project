@@ -1,4 +1,4 @@
-\documentclass[english,man]{apa6}
+\documentclass[english,floatsintext,man]{apa6}
 
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
@@ -39,12 +39,6 @@
   {\begin{landscape}\begin{center}\begin{ThreePartTable}}
   {\end{ThreePartTable}\end{center}\end{landscape}}
 
-  \usepackage{ifthen} % Only add declarations when endfloat package is loaded
-  \ifthenelse{\equal{\string man}{\string man}}{%
-   \DeclareDelayedFloatFlavor{ThreePartTable}{table} % Make endfloat play with longtable
-   % \DeclareDelayedFloatFlavor{ltable}{table} % Make endfloat play with lscape
-   \DeclareDelayedFloatFlavor{lltable}{table} % Make endfloat play with lscape & longtable
-  }{}%
 
 
 
@@ -64,6 +58,15 @@
 \endgroup}
 
 
+  \usepackage{graphicx}
+  \makeatletter
+  \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+  \def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+  \makeatother
+  % Scale images if necessary, so that they will not overflow the page
+  % margins by default, and it is still possible to overwrite the defaults
+  % using explicit options in \includegraphics[width, height, ...]{}
+  \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
@@ -125,7 +128,7 @@
  % If no author_note is defined give only author information if available
     \authornote{
     \newcounter{author}
-                      Correspondence concerning this article should be addressed to Justin VanWinkle, 281 4th St, Geneva, FL. E-mail: \href{mailto:justin@swissarmydev.com}{\nolinkurl{justin@swissarmydev.com}}
+                      Correspondence concerning this article should be addressed to Justin VanWinkle, 281 4th St, Geneva, FL 32732. E-mail: \href{mailto:justin@swissarmydev.com}{\nolinkurl{justin@swissarmydev.com}}
                 }
   
 
@@ -134,9 +137,9 @@ object-oriented programming and concurrency. It explores the decisions
 made while designing the program, the way a user should go about making
 use of the program, standard practices for testing the program, lessons
 learned while}
-  \keywords{java,object-oriented, \\
+  \keywords{java,object-oriented \\
 
-    \indent Word count: X
+    
   }
 
 
@@ -174,11 +177,18 @@ isolated.
   needing to know how its definition is formed in the input file. This
   loosens the coupling in such a way that eases changes as a result of
   changes in the structure of the input file.
+\item
+  TDD was used for some areas of the program to ensure that changes in
+  future iterations do not alter the functionality of those methods.
+\item
+  A map was used in the World class to track all objects for two main
+  reasons. First, the complexity of creating the model is greatly
+  reduced since parent objects can be found without having to search for
+  them. Second, this allows for O(n) lookup time for any object that
+  exists in the World. So for the purposes of this class, the time
+  needed to create the World is drastically reduced -- especially for
+  very large input files.
 \end{itemize}
-
-\subsection{UML Diagram}\label{uml-diagram}
-
-Diagram
 
 \subsection{Meanings}\label{meanings}
 
@@ -223,11 +233,17 @@ input file. While the requirement documentation \emph{suggests} that a
 scanner should be used, a string tokenizer was used instead. While this
 adds some additional coding overhead,
 
-\subsection{Project Requirements}\label{project-requirements}
-
 \section{User's Guide}\label{users-guide}
 
+This serves as a guide for all you need to know to get up and running
+with this program
+
 \subsection{How to start the program}\label{how-to-start-the-program}
+
+To compile, cd into the src directory and run the command
+\texttt{javac\ *.java\ */*.java\ */*/*.java}. Once that command has
+completed, run
+\texttt{java\ -classpath\ \textless{}path-to-src-folder\textgreater{}\ main.SeaPortProgram}.
 
 \subsection{How to create a world}\label{how-to-create-a-world}
 
@@ -247,9 +263,9 @@ adds some additional coding overhead,
 
 \subsection{Search}\label{search}
 
-Searches using regex allow for more control over the matching pattern.
-As a result, searches are made to iterate over the entire set of objects
-that exist in the world.
+Searches using regex provide the user with more control over the
+matching pattern. Matches look at three criteria: name, index, and
+skill.
 
 \subsubsection{How to search}\label{how-to-search}
 
@@ -259,7 +275,7 @@ that exist in the world.
 \item
   Input a valid java regex engine pattern in the search box. (Valid
   regex patterns for the java regex engine can be obtained
-  \href{http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html}{Here}.
+  \href{http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html}{here}.
 \item
   Click \enquote{Search}. Searching returns a list of all \emph{Things}
   that have a Name or Index that match the criteria. Some additional
@@ -273,24 +289,85 @@ that exist in the world.
 \tightlist
 \item
   Search Pattern: \enquote{ar}
-\item
-  Matches \enquote{Sara}
-\item
-  Does not Match \enquote{Archie}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Matches \enquote{Sara}
+  \item
+    Does not Match \enquote{Archie}
+  \end{itemize}
 \item
   Search Pattern: \enquote{{[}A\textbar{}a{]}r}
-\item
-  Matches \enquote{Sara} and \enquote{Archie} For more extended
-  documentation on regex patterns,
-  \href{http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html}{go
-  here}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Matches \enquote{Sara} and \enquote{Archie} For more extended
+    documentation on regex patterns,
+    \href{http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html}{go
+    here}.
+  \end{itemize}
 \end{itemize}
 
 \subsection{Special Features}\label{special-features}
 
+Nothing notable.
+
 \section{Test Plan}\label{test-plan}
 
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Base Case
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Input:} (1.txt) Using the input file outlined in the
+    requirements documentation
+  \item
+    \textbf{Expected:} Ouput that matches the output outlined in the
+    documentation.
+  \item
+    \textbf{Result:} An exact match between the expected output and the
+    actual output.
+  \end{itemize}
+\item
+  Very large input file
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Input:} (2.txt) Using an input file that is extremely large
+    to ensure no allocation issues
+  \item
+    \textbf{Expected:} No errors and output that displays an appropriate
+    data structure to match the input.
+  \item
+    \textbf{Result:} No errors thrown and output matches an appropriate
+    construction of input.
+  \end{itemize}
+\item
+  Unit tests
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Unit tests were written to ensure that units of code perform the
+    same basic function even after changes are made.
+  \item
+    \textbf{Expected:} All unit tests should pass.
+  \item
+    \textbf{Result:} All unit tests pass.
+  \end{itemize}
+\end{enumerate}
+
 \section{Lessons Learned}\label{lessons-learned}
+
+In the coming sections, consideration will be given to particular pain
+points, gleanings, and takeaways.
 
 \subsection{About This Documentation}\label{about-this-documentation}
 
@@ -299,7 +376,12 @@ documentation and papers in markdown and used Pandoc to convert them to
 whatever end format I require. Markdown allows me to focus on content
 rather than formatting and thus saves great amounts of time. One
 particular hurdle in writing this documentation was finding a way to use
-\LaTeX~
+\LaTeX~to handle the formatting in a way that was consistent with the
+APA style guide. As a result, I came across a set of tools that allows
+me to continue using Pandoc to pipe everything through a template that
+\LaTeX~uses to ultimately format my paper perfectly according to the APA
+style -- and all I ever did was write this in markdown with some yaml
+front matter. A glorious combination when paired with Vim.
 
 \subsection{New Classes Used}\label{new-classes-used}
 
@@ -309,6 +391,25 @@ time in this program. I did find JScrollPane to be comparatively easy to
 work with for the sake of just getting a scroll view set up.
 
 \subsection{Future Iterations}\label{future-iterations}
+
+In a future iteration, I would like to focus on pushing all UI driven
+events to the EDT and all other tasks onto other threads. In the words
+of Vern Gosdin, \enquote{This ain't my first rodeo.} Additionally, I
+would likely opt for some sort of utility class if too much begins to be
+repeated among the various classes. I already see where this might be
+possible as the search expands and I could offload the matching to a
+static utility method that just grabs the specified fields from each of
+the classes for comparison. Thing implements the comparable interface,
+but makes no actual use of the interface. Currently, the compareTo()
+method is overridden in Thing, but in the future, Thing need to be an
+abstract class and all subclasses will need to override this comparable
+method.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/diagram.png}
+\caption{UML Diagram}
+\end{figure}
 
 \setlength{\parindent}{-0.5in} \setlength{\leftskip}{0.5in}
 

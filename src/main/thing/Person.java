@@ -1,25 +1,44 @@
+/**
+ * Filename: Person.java
+ * Date: 26 March 2017
+ * Author: Justin VanWinkle
+ * Purpose: This Class represents a person who has a trade skill
+ */
+
 package main.thing;
 
 import java.util.regex.Pattern;
 
-/**
- * Created by vanwinklej on 3/21/17.
- */
 public class Person extends Thing {
     String skill;
 
+    /**
+     * The constructor for this class
+     * @param name the name of this person
+     * @param index the index of this person
+     * @param parent the parent of this person
+     * @param skill the skill of this person
+     */
     public Person(String name, int index, int parent, String skill) {
         super(name, index, parent);
         this.skill = skill;
     }
 
+    /**
+     * Performs a regex comparison to check for a match
+     * @param pattern the pattern to match on
+     * @return true if a match is found.  Otherwise false.
+     */
     @Override
     public boolean checkForMatch(String pattern) {
+        // compile the pattern
         Pattern r = Pattern.compile(pattern);
 
+        // check the skill for a match
         if (r.matcher(skill).find()) {
             return true;
         }
+        // check the super class for a match
         if (super.checkForMatch(pattern)) {
             return true;
         }
@@ -27,6 +46,10 @@ public class Person extends Thing {
         return false;
     }
 
+    /**
+     * Creates a string representation of this class
+     * @return a string representation of this class
+     */
     @Override
     public String toString() {
         return "Person: " + super.toString() + " " + skill;

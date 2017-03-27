@@ -1,20 +1,24 @@
+/**
+ * Filename: SeaPortUI.java
+ * Date: 26 March 2017
+ * Author: Justin VanWinkle
+ * Purpose: This class serves as the UI for the Sea Port Program
+ */
+
 package main.ui;
 
 import main.SeaPortProgram;
 import main.thing.Thing;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by vanwinklej on 3/23/17.
- */
 public class SeaPortUI {
 
     private SeaPortProgram spp;
 
+    // the controls to be used
     private JFrame frame;
     private JPanel btnPanel;
     private JButton btnFileSelect;
@@ -22,10 +26,15 @@ public class SeaPortUI {
     private JTextField txtSearch;
     private JTextArea txtOutputArea;
 
+    /**
+     * The constructor for this UI
+     * @param spp the context for this ui
+     */
     public SeaPortUI(SeaPortProgram spp) {
         this.spp = spp;
 
-        javax.swing.SwingUtilities.invokeLater(() -> init());
+        // initialize this ui
+        new Thread(() -> init() ).start();
     }
 
     /**
@@ -52,7 +61,7 @@ public class SeaPortUI {
         frame.setLayout(new BorderLayout());
         // add pnlMain in frame at center
         frame.add(initPanel(), BorderLayout.NORTH);
-        // add scroll pane
+        // add scroll pane with text area
         txtOutputArea = new JTextArea();
         txtOutputArea.setFont(new Font("Monospaced", 0, 12));
         frame.add(new JScrollPane( txtOutputArea ));
@@ -92,29 +101,31 @@ public class SeaPortUI {
 
 
         // add listeners
-        btnFileSelect.addActionListener(e ->chooseFileAction());
+        btnFileSelect.addActionListener(e -> chooseFileAction());
         btnSearch.addActionListener(e -> searchAction());
     }
 
     /**
      * This method sets GridBagConstraints and adds specified component to specified container.
-     * @param x int
-     * @param y int
-     * @param gw int
-     * @param gh int
-     * @param wx double
-     * @param wy double
-     * @param fill int
-     * @param anchor int
-     * @param aContainer Container
-     * @param aComponent Component
+     * @param x x positioning on the grid
+     * @param y y positioning on the grid
+     * @param gw width on the grid
+     * @param gh height on the grid
+     * @param wx weight in the x direction
+     * @param wy weight in the y direction
+     * @param fill enumeration for how this should fill the container
+     * @param anchor enumeration for how this should anchor in the container
+     * @param aContainer the container this component should go in
+     * @param aComponent the component to be placed
      */
     private void addComponent(int x, int y, int gw, int gh, double wx, double wy, int fill, int anchor
             ,Container aContainer
             ,Component aComponent) {
+
         // instantiate GBL and GBC
         GridBagLayout gridBagLayout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
+
         // set constraints
         c.fill = fill;
         c.anchor = anchor;
@@ -124,29 +135,43 @@ public class SeaPortUI {
         c.gridheight = gh;
         c.weightx = wx;
         c.weighty = wy;
-//        c.insets = new Insets(5, 5, 5, 5);
+
         // place component
         gridBagLayout.setConstraints(aComponent, c);
         aContainer.add(aComponent, c);
     }
 
+    /**
+     * Lets user select a file and builds a world based on that file
+     */
     private void chooseFileAction() {
+        // get a file chooser at the current path
         JFileChooser fc = new JFileChooser(new java.io.File("."));
+        // open the dialog
         fc.showDialog(frame, "Open");
 
+        // create the world
         spp.createWorld(fc.getSelectedFile().getPath());
 
+        // ouput the string representation of the world
         txtOutputArea.setText(spp.getWorld().toString());
-
     }
 
+    /**
+     * Lets user search for an object in the world
+     */
     private void searchAction() {
+        // get the pattern
         String pattern = txtSearch.getText();
+
+        // search
         ArrayList<Thing> matches = spp.getWorld().search(pattern);
 
+        // get a string builder
         StringBuilder sb = new StringBuilder("");
         sb.append("Matches:\n");
 
+        // add all the matches to the string
         for(Thing match : matches) {
             sb.append("--------------------------------\n\nMatch:\n");
             sb.append(match + "\n\n");
@@ -154,6 +179,7 @@ public class SeaPortUI {
 
         sb.append("--------------------------------\nEnd Matches\n");
 
+        // output the matches to the text area
         txtOutputArea.setText(sb.toString());
     }
 

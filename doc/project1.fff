@@ -1,0 +1,9 @@
+\begin{figure*}[hbt]
+\ifnextchar[{\eatarg}{}
+[htbp]
+\centering
+\includegraphics{/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/diagram.png}
+\caption{UML Diagram}
+\end{figure*}
+\efloatseparator
+ 
