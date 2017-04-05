@@ -36,4 +36,5 @@ class WorldTest extends GroovyTestCase {
         Thing result = world.getThing(99)
         assertEquals(expected.toString(), result.toString())
     }
+
 }

@@ -10,11 +10,14 @@ package main;
 import main.thing.*;
 import main.thing.ship.CargoShip;
 import main.thing.ship.PassengerShip;
+import main.thing.ship.Ship;
 import main.ui.SeaPortUI;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class SeaPortProgram {
@@ -26,7 +29,7 @@ public class SeaPortProgram {
      */
     public SeaPortProgram() {
         // get a UI and pass it context to this object
-        SeaPortUI ui = new SeaPortUI(this);
+        new SeaPortUI(this);
     }
 
     /**
@@ -159,8 +162,11 @@ public class SeaPortProgram {
      */
     public void createWorld(String filepath) {
 
+        Map<Integer, Thing> objects = new HashMap<>();
+
         // get a new world
         world = new World();
+        objects.put(0, world);
 
         // parse out the definitions from the file
         ArrayList<String> objDefs = parseObjectDefinitions(filepath);
@@ -170,8 +176,25 @@ public class SeaPortProgram {
             // create this thing
             Thing thing = createThingFromDefinition(def);
 
-            // add this thing to the master map
-            world.addThing(thing);
+            // put this thing in the map
+            objects.put(thing.getIndex(), thing);
+
+            // add this thing to its parent
+            if (objects.containsKey(thing.getParentId())) {
+                Thing parent = objects.get(thing.getParentId());
+                parent.addChild(thing);
+
+                // if this ship has a parent that is a dock
+                if ( parent instanceof Dock) {
+                    // get the port and add the ship directly to handle placement
+                    if (objects.containsKey(parent.getParentId())) {
+                        SeaPort port = (SeaPort)objects.get(parent.getParentId());
+                        port.addShip( (Ship)thing );
+                    }
+                }
+
+            }
+
         }
     }
 
@@ -190,7 +213,7 @@ public class SeaPortProgram {
     public static void main(String[] args) {
 
         // instantiate this program
-        SeaPortProgram spp = new SeaPortProgram();
+        new SeaPortProgram();
     }
 
 }

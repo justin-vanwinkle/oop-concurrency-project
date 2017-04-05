@@ -4,16 +4,16 @@ shorttitle        : "Project 1"
 
 author: 
   - name          : "Justin VanWinkle"
-    affiliation   : "1,2"
+    affiliation   : 
     corresponding : yes    # Define only one corresponding author
     address       : "281 4th St, Geneva, FL 32732"
     email         : "justin@swissarmydev.com"
 
 affiliation:
-  - id            : "1"
-    institution   : "University of Maryland University College"
-  - id            : "2"
-    institution   : "Wycliffe Associates, Inc."
+  - id            :
+    institution   : "26 March 2017"
+  - id            : 
+    institution   : "CMSC 335 (7980)"
 
 author_note: >
   

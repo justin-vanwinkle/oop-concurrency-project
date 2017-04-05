@@ -14,19 +14,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class World extends Thing {
-    private Map<Integer, SeaPort> ports;
-    private PortTime time;
-    private Map<Integer, Thing> objects = new HashMap<>();
-
+    private Map<Integer, SeaPort> ports = new HashMap<>();
+    private PortTime time = new PortTime(0);
 
     /**
      * The constructor for this class
      */
     public World() {
         super("World", 0, -1);
-        ports = new HashMap<>();
-        time = new PortTime(0);
-        objects.put(0, this);
     }
 
     /**
@@ -82,41 +77,6 @@ public class World extends Thing {
     }
 
     /**
-     * Adds a thing to the master map of this world for indexing
-     * @param thing the thing to be added
-     */
-    public void addThing(Thing thing) {
-
-        // put this thing in the map
-        objects.put(thing.getIndex(), thing);
-
-        // add this thing to its parent
-        Thing parent = getThing( thing.getParentId() );
-        parent.addChild(thing);
-
-        // if this ship has a parent that is a dock
-        if ( parent instanceof Dock) {
-            // get the port and add the ship directly to handle placement
-            SeaPort port = (SeaPort)getThing( parent.getParentId() );
-            port.addShip( (Ship)thing );
-        }
-
-    }
-
-    /**
-     * Gets a thing out of the indexing map
-     * @param id the index of the item to retrieve
-     * @return the Thing requested if it exists.  Otherwise null.
-     */
-    public Thing getThing(int id) {
-        // if this key exists
-        if (objects.containsKey(id)) {
-            return objects.get(id);
-        }
-        else return null;
-    }
-
-    /**
      * Gets the ports that belong to this world
      * @return a Map containing all of the ports in this world
      */
@@ -162,4 +122,5 @@ public class World extends Thing {
 
         return sb.toString();
     }
+
 }

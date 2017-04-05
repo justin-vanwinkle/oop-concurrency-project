@@ -5,6 +5,7 @@ import main.thing.Job
 import main.thing.Person
 import main.thing.SeaPort
 import main.thing.Thing
+import main.thing.World
 import main.thing.ship.CargoShip
 import main.thing.ship.PassengerShip
 import org.junit.Test
@@ -38,6 +39,31 @@ class SeaPortProgramTest extends GroovyTestCase {
         expected.add("job Job_10_94_27 60020 30007 77.78 carpenter cleaner clerk")
 
         ArrayList<String> result = spp.parseObjectDefinitions("src/test/testParseObjectDefinitions.txt")
+        assertEquals(expected, result)
+    }
+
+    @Test
+    void testCreateWorld() {
+        World expected = new World()
+        Thing thing = new SeaPort("Kandahar", 10000, 0)
+        expected.addThing(thing)
+        thing = new Dock("Pier_5", 20005, 10000)
+        expected.addThing(thing)
+        thing = new CargoShip("Suites", 40003, 10000, 165.91, 447.15, 85.83, 27.07, 125.09, 176.80, 857.43)
+        expected.addThing(thing)
+        thing = new PassengerShip("\"ZZZ_Hysterics\"", 30002, 20005, 103.71, 327.92, 56.43, 30.23, 3212, 917, 917)
+        expected.addThing(thing)
+        thing = new Person("Alberto", 50013, 10000, "cleaner")
+        expected.addThing(thing)
+        ArrayList<String> reqs = new ArrayList<>();
+        reqs.add("carpenter")
+        reqs.add("cleaner")
+        reqs.add("clerk")
+        thing = new Job("Job_10_94_27", 60020, 30002, 77.78, reqs)
+        expected.addThing(thing)
+
+        World result = spp.createWorld("src/test/testCreateWorld.txt")
+
         assertEquals(expected, result)
     }
 
