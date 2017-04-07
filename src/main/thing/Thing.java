@@ -9,7 +9,7 @@ package main.thing;
 
 import java.util.regex.Pattern;
 
-public class Thing implements Comparable<Thing> {
+public abstract class Thing {
 
     private int index;
     private int parent;
@@ -63,15 +63,15 @@ public class Thing implements Comparable<Thing> {
      * @param o the thing to which this will be compared
      * @return 0 if match, otherwise -1;
      */
-    @Override
-    public int compareTo(Thing o) {
-
-        // compare name, index, and parent index
-        if (name == o.name && index == o.index && parent == o.parent) {
-            return 0;
-        }
-        return -1;
-    }
+//    @Override
+//    public int compareTo(Thing o) {
+//
+//        // compare name, index, and parent index
+//        if (name == o.name && index == o.index && parent == o.parent) {
+//            return 0;
+//        }
+//        return -1;
+//    }
 
     /**
      * Adds a child to this thing.

@@ -12,7 +12,7 @@ import main.thing.Job;
 import main.thing.Thing;
 import java.util.ArrayList;
 
-public abstract class Ship extends Thing {
+public class Ship extends Thing implements Comparable {
     PortTime arrivalTime
             , dockTime;
     double draft
@@ -20,6 +20,13 @@ public abstract class Ship extends Thing {
             , weight
             , width;
     private ArrayList<Job> jobs = new ArrayList<>();
+
+    public enum COMPARE {
+        DRAFT
+        ,LENGTH
+        ,WEIGHT
+        ,WIDTH
+    }
 
     /**
      * The constructor for this class
@@ -72,5 +79,30 @@ public abstract class Ship extends Thing {
     public ArrayList<Job> getJobs() {
         return jobs;
     }
+
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
+
+    public int compareTo(Ship ship, COMPARE metricToCompare) {
+
+        switch (metricToCompare) {
+            case DRAFT:
+                return Double.compare(this.draft, ship.draft);
+            case LENGTH:
+                return Double.compare(this.length, ship.length);
+            case WEIGHT:
+                return Double.compare(this.weight, ship.weight);
+            case WIDTH:
+                return Double.compare(this.width, ship.width);
+        }
+
+        return 0;
+    }
+
+
+
 }
 
