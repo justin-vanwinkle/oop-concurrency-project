@@ -9,7 +9,7 @@ package main.thing.ship;
 
 import main.thing.Job;
 
-public class PassengerShip extends Ship {
+public class PassengerShip extends Ship implements Comparable<PassengerShip> {
     int numberOfOccupiedRooms;
     int numberOfPassengers;
     int numberOfRooms;
