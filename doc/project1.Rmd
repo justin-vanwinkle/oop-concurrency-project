@@ -1,3 +1,7 @@
+Maps not converted to arraylists to preserve functionality.
+No reason to sort those in the structure.
+
+
 ---
 title             : "Project 1: Sea Port Program"
 shorttitle        : "Project 1"

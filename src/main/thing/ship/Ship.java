@@ -38,13 +38,6 @@ public abstract class Ship extends Thing {
         return width;
     }
 
-    public enum COMPARE {
-        DRAFT
-        ,LENGTH
-        ,WEIGHT
-        ,WIDTH
-    }
-
     /**
      * The constructor for this class
      * @param name the name of the ship
@@ -97,25 +90,6 @@ public abstract class Ship extends Thing {
         return jobs;
     }
 
-    /**
-     * @param ship
-     * @param metricToCompare
-     * @return
-     */
-//    public int compareTo(Ship ship, COMPARE metricToCompare) {
-//        switch (metricToCompare) {
-//            case DRAFT:
-//                return Double.compare(this.getDraft(), ship.getDraft());
-//            case LENGTH:
-//                return Double.compare(this.getLength(), ship.getLength());
-//            case WEIGHT:
-//                return Double.compare(this.getWeight(), ship.getWeight());
-//            case WIDTH:
-//                return Double.compare(this.getWidth(), ship.getWidth());
-//        }
-//
-//        return 0;
-//    }
 
     /**
      * A comparator for ship weights
