@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class World extends Thing {
-    private Map<Integer, SeaPort> ports;
+    private ArrayList<SeaPort> ports;
     private PortTime time;
     private Map<Integer, Thing> objects = new HashMap<>();
 
@@ -24,7 +24,7 @@ public class World extends Thing {
      */
     public World() {
         super("World", 0, -1);
-        ports = new HashMap<>();
+        ports = new ArrayList<>();
         time = new PortTime(0);
         objects.put(0, this);
     }
@@ -39,44 +39,30 @@ public class World extends Thing {
         ArrayList<Thing> matches = new ArrayList<>();
 
         // iterate over ports
-        for (Map.Entry<Integer, SeaPort> entry : ports.entrySet()) {
-            SeaPort port = entry.getValue();
+        ports.forEach( port -> {
 
             // check port for match
-            if (port.checkForMatch(pattern)) {
+            if (port.checkForMatch(pattern))
                 matches.add(port);
-            }
 
             // iterate over docks
-            for(Map.Entry<Integer, Dock> _dock : port.getDocks().entrySet()) {
-                Dock dock = _dock.getValue();
-
-                // check dock for match
-                if (dock.checkForMatch(pattern)) {
+            port.getDocks().forEach( dock -> {
+                if (dock.checkForMatch(pattern))
                     matches.add(dock);
-                }
-            }
+            });
 
             // iterate over ships
-            for(Map.Entry<Integer, Ship> _ship : port.getShips().entrySet()) {
-                Ship ship = _ship.getValue();
-
-                // check ship for match
-                if (ship.checkForMatch(pattern)) {
-                    matches.add(ship);
-                }
-            }
+            port.getShips().forEach( ship -> {
+              if (ship.checkForMatch(pattern))
+                  matches.add(ship);
+            });
 
             // iterate over persons
-            for(Map.Entry<Integer, Person> _person : port.getPersons().entrySet()) {
-                Person person = _person.getValue();
-
-                // check ship for match
-                if (person.checkForMatch(pattern)) {
+            port.getPersons().forEach( person -> {
+                if (person.checkForMatch(pattern))
                     matches.add(person);
-                }
-            }
-        }
+            });
+        });
 
         return matches;
     }
@@ -85,22 +71,34 @@ public class World extends Thing {
      * Adds a thing to the master map of this world for indexing
      * @param thing the thing to be added
      */
-    public void addThing(Thing thing) {
+    public void addThingToParent(Thing thing) {
 
         // put this thing in the map
         objects.put(thing.getIndex(), thing);
 
         // add this thing to its parent
         Thing parent = getThing( thing.getParentId() );
-        parent.addChild(thing);
 
-        // if this ship has a parent that is a dock
-        if ( parent instanceof Dock) {
-            // get the port and add the ship directly to handle placement
-            SeaPort port = (SeaPort)getThing( parent.getParentId() );
-            port.addShip( (Ship)thing );
+
+        // if this is a ship
+        if ( thing instanceof Ship ) {
+            SeaPort port;
+
+            // get the port
+            if ( parent instanceof Dock ) {
+                port = (SeaPort)getThing( parent.getParentId() );
+                // pass the ship to the port for placement
+                port.addShip( (Ship)thing, true );
+            }
+            else {
+                port = (SeaPort)getThing( parent.getIndex() );
+                // pass the ship to the port for placement
+                port.addShip( (Ship)thing, false );
+            }
         }
 
+        // add directly to parent
+        parent.addChild(thing);
     }
 
     /**
@@ -120,17 +118,17 @@ public class World extends Thing {
      * Gets the ports that belong to this world
      * @return a Map containing all of the ports in this world
      */
-    public Map<Integer, SeaPort> getPorts() {
+    public ArrayList<SeaPort> getPorts() {
         return ports;
     }
 
     /**
      * Adds a port to this world
      * @param port the port to be added
-     * @return the SeaPort if it was added, otherwise null
+     * @return
      */
-    public SeaPort addPort(SeaPort port) {
-        return ports.put(port.getIndex(), port);
+    public boolean addPort(SeaPort port) {
+        return ports.add(port);
     }
 
     /**
@@ -158,7 +156,7 @@ public class World extends Thing {
         StringBuilder sb = new StringBuilder(">>>>> The world:");
 
         // iterate over the ports and add each one to the string
-        ports.forEach((k,v)->sb.append(v.toString()));
+        ports.forEach( port ->sb.append(port.toString()) );
 
         return sb.toString();
     }

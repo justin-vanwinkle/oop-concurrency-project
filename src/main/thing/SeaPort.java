@@ -13,10 +13,10 @@ import main.thing.ship.Ship;
 import java.util.*;
 
 public class SeaPort extends Thing {
-    private Map<Integer, Dock> docks = new HashMap<>();
+    private ArrayList<Dock> docks = new ArrayList<>();
     private ArrayList<Ship> que = new ArrayList<>();
-    private Map<Integer, Ship> ships = new HashMap<>();
-    private Map<Integer, Person> persons = new HashMap<>();
+    private ArrayList<Ship> ships = new ArrayList<>();
+    private ArrayList<Person> persons = new ArrayList<>();
 
     public SeaPort(String name, int index, int parent) {
         super(name, index, parent);
@@ -27,25 +27,24 @@ public class SeaPort extends Thing {
      * @param dock the dock to be added
      */
     public void addDock(Dock dock) {
-        getDocks().put(dock.getIndex(), dock);
+        getDocks().add(dock);
     }
 
     /**
      * Adds a ship to this port
      * @param ship the ship to be added
      */
-    public void addShip(Ship ship) {
+    public void addShip(Ship ship, boolean isDocked) {
         // add this ship to the list of ships
-        getShips().put(ship.getIndex(), ship);
+        getShips().add(ship);
 
-        // if this ship is not in a dock, add it to the que
-        if (!docks.containsKey(ship.getParentId())) {
-            que.add(ship);
+        if (!isDocked) {
+            getQue().add(ship);
         }
     }
 
     public void addPerson(Person person) {
-        getPersons().put(person.getIndex(), person);
+        getPersons().add(person);
     }
 
     /**
@@ -72,20 +71,19 @@ public class SeaPort extends Thing {
         StringBuilder sb = new StringBuilder("\n\n\nSeaPort: " + super.toString() + "\n");
 
         // iterate over the docks and append each
-        docks.forEach((k,v)->sb.append("\n " + v.toString()));
+        docks.forEach( dock-> sb.append("\n " + dock.toString()) );
 
         // iterate over the que and add to string
         sb.append("\n\n --- List of all ships: in que:");
-        que.forEach(ship->sb.append("\n  > " + ship.toString()));
+        getQue().forEach(ship -> sb.append("\n  > " + ship.toString()) );
 
         // iterate over all ships and add to string
         sb.append("\n\n --- List of all ships:");
-        Map<Integer, Thing> sortedShips = new TreeMap<>(ships);
-        sortedShips.forEach((k,v)->sb.append("\n  > " + v.toString()));
+        ships.forEach( ship -> sb.append("\n  > " + ship.toString()) );
 
         // iterate over all persons and add to string
         sb.append("\n\n --- List of all persons:");
-        persons.forEach((k,v)->sb.append("\n  > " + v.toString()));
+        persons.forEach( port -> sb.append("\n  > " + port.toString()) );
 
         return sb.toString();
     }
@@ -97,16 +95,13 @@ public class SeaPort extends Thing {
      */
     @Override
     public boolean addChild(Thing child) {
-        // if this is a ship, add it to ships
-        if(child instanceof Ship) {
-            addShip( (Ship)child );
-            return true;
-        }
+
         // if this is a dock, add it to docks
-        else if(child instanceof Dock) {
+        if(child instanceof Dock) {
             addDock( (Dock)child );
             return true;
         }
+
         // if this is a person, add it to persons
         else if(child instanceof Person) {
             addPerson( (Person)child );
@@ -120,7 +115,7 @@ public class SeaPort extends Thing {
      * Gets the docks of this port
      * @return a map containing docks
      */
-    public Map<Integer, Dock> getDocks() {
+    public ArrayList<Dock> getDocks() {
         return docks;
     }
 
@@ -128,7 +123,7 @@ public class SeaPort extends Thing {
      * Gets the ships of this port
      * @return a map containing ships
      */
-    public Map<Integer, Ship> getShips() {
+    public ArrayList<Ship> getShips() {
         return ships;
     }
 
@@ -136,8 +131,11 @@ public class SeaPort extends Thing {
      * Gets the persons of this port
      * @return a map containing the persons
      */
-    public Map<Integer, Person> getPersons() {
+    public ArrayList<Person> getPersons() {
         return persons;
     }
 
+    public ArrayList<Ship> getQue() {
+        return que;
+    }
 }

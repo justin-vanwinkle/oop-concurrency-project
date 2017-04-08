@@ -8,7 +8,6 @@
 package main.thing.ship;
 
 import main.thing.Job;
-import main.thing.Thing;
 
 public class CargoShip extends Ship{
     double cargoValue;

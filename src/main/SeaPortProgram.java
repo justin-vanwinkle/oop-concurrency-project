@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class SeaPortProgram {
@@ -171,9 +172,19 @@ public class SeaPortProgram {
             Thing thing = createThingFromDefinition(def);
 
             // add this thing to the master map
-            world.addThing(thing);
+            world.addThingToParent(thing);
         }
+
+        // sort it all
+        Collections.sort(world.getPorts(), Thing.nameComparator);
+        world.getPorts().forEach( port -> {
+            Collections.sort(port.getPersons(), Thing.nameComparator);
+            Collections.sort(port.getDocks(), Thing.nameComparator);
+            Collections.sort(port.getShips(), Thing.nameComparator);
+            Collections.sort(port.getQue(), Thing.nameComparator);
+        });
     }
+
 
     /**
      * Gets the world of this class
@@ -182,6 +193,7 @@ public class SeaPortProgram {
     public World getWorld() {
         return world;
     }
+
 
     /**
      * The main entry point of this program
