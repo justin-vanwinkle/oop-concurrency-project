@@ -54,4 +54,7 @@ public class Person extends Thing {
     public String toString() {
         return "Person: " + super.toString() + " " + skill;
     }
+
+
+
 }

@@ -11,15 +11,39 @@ import main.portTime.PortTime;
 import main.thing.Job;
 import main.thing.Thing;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public abstract class Ship extends Thing {
     PortTime arrivalTime
             , dockTime;
-    double draft
-            , length
-            , weight
-            , width;
+    private double draft;
+    private double length;
+    private double weight;
+    private double width;
     private ArrayList<Job> jobs = new ArrayList<>();
+
+    public double getDraft() {
+        return draft;
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public enum COMPARE {
+        DRAFT
+        ,LENGTH
+        ,WEIGHT
+        ,WIDTH
+    }
 
     /**
      * The constructor for this class
@@ -72,5 +96,65 @@ public abstract class Ship extends Thing {
     public ArrayList<Job> getJobs() {
         return jobs;
     }
+
+    /**
+     * @param ship
+     * @param metricToCompare
+     * @return
+     */
+//    public int compareTo(Ship ship, COMPARE metricToCompare) {
+//        switch (metricToCompare) {
+//            case DRAFT:
+//                return Double.compare(this.getDraft(), ship.getDraft());
+//            case LENGTH:
+//                return Double.compare(this.getLength(), ship.getLength());
+//            case WEIGHT:
+//                return Double.compare(this.getWeight(), ship.getWeight());
+//            case WIDTH:
+//                return Double.compare(this.getWidth(), ship.getWidth());
+//        }
+//
+//        return 0;
+//    }
+
+    /**
+     * A comparator for ship weights
+     */
+    public static Comparator<Ship> weightComparator = new Comparator<Ship>() {
+                public int compare(Ship s1, Ship s2) {
+                    return Double.compare(s1.getWeight(),
+                            s2.getWeight());
+                }
+            };
+
+    /**
+     * A comparator for ship drafts
+     */
+    public static Comparator<Ship> draftComparator = new Comparator<Ship>() {
+        public int compare(Ship s1, Ship s2) {
+            return Double.compare(s1.getDraft(),
+                    s2.getDraft());
+        }
+    };
+
+    /**
+     * A comparator for ship width
+     */
+    public static Comparator<Ship> widthComparator = new Comparator<Ship>() {
+        public int compare(Ship s1, Ship s2) {
+            return Double.compare(s1.getWidth(),
+                    s2.getWidth());
+        }
+    };
+
+    /**
+     * A comparator for ship lengths
+     */
+    public static Comparator<Ship> lengthComparator = new Comparator<Ship>() {
+        public int compare(Ship s1, Ship s2) {
+            return Double.compare(s1.getLength(),
+                    s2.getLength());
+        }
+    };
 }
 

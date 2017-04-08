@@ -67,4 +67,5 @@ public class Job extends Thing {
         }
         return sb.toString();
     }
+
 }

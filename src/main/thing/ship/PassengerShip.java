@@ -8,8 +8,9 @@
 package main.thing.ship;
 
 import main.thing.Job;
+import main.thing.Thing;
 
-public class PassengerShip extends Ship implements Comparable<PassengerShip> {
+public class PassengerShip extends Ship {
     int numberOfOccupiedRooms;
     int numberOfPassengers;
     int numberOfRooms;
@@ -67,4 +68,5 @@ public class PassengerShip extends Ship implements Comparable<PassengerShip> {
         }
         return sb.toString();
     }
+
 }

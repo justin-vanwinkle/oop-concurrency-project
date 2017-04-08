@@ -7,9 +7,11 @@
 
 package main.thing;
 
+import java.lang.*;
+import java.util.Comparator;
 import java.util.regex.Pattern;
 
-public class Thing implements Comparable<Thing> {
+public abstract class Thing {
 
     private int index;
     private int parent;
@@ -26,8 +28,9 @@ public class Thing implements Comparable<Thing> {
 
     /**
      * A constructor for this class
-     * @param name the name of this thing
-     * @param index the index of this thing
+     *
+     * @param name   the name of this thing
+     * @param index  the index of this thing
      * @param parent the parent to which this thing belongs
      */
     public Thing(String name, int index, int parent) {
@@ -38,6 +41,7 @@ public class Thing implements Comparable<Thing> {
 
     /**
      * Performs a regex comparison to check for a match
+     *
      * @param pattern the pattern to match on
      * @return true if a match is found.  Otherwise false.
      */
@@ -51,7 +55,7 @@ public class Thing implements Comparable<Thing> {
         }
 
         // if the index matches
-        if (r.matcher( Integer.toString(index) ).find()) {
+        if (r.matcher(Integer.toString(index)).find()) {
             return true;
         }
 
@@ -59,23 +63,9 @@ public class Thing implements Comparable<Thing> {
     }
 
     /**
-     * Compares this thing to another thing
-     * @param o the thing to which this will be compared
-     * @return 0 if match, otherwise -1;
-     */
-    @Override
-    public int compareTo(Thing o) {
-
-        // compare name, index, and parent index
-        if (name == o.name && index == o.index && parent == o.parent) {
-            return 0;
-        }
-        return -1;
-    }
-
-    /**
      * Adds a child to this thing.
      * This should not be used.
+     *
      * @param child the child to be added
      * @return
      */
@@ -86,6 +76,7 @@ public class Thing implements Comparable<Thing> {
 
     /**
      * gets the index of this thing
+     *
      * @return the index of this thing
      */
     public int getIndex() {
@@ -94,6 +85,7 @@ public class Thing implements Comparable<Thing> {
 
     /**
      * gets the index of the parent to which this thing belongs
+     *
      * @return the index of this thing's parent
      */
     public int getParentId() {
@@ -102,6 +94,7 @@ public class Thing implements Comparable<Thing> {
 
     /**
      * gets the name of this thing
+     *
      * @return the name of this thing
      */
     public String getName() {
@@ -110,10 +103,20 @@ public class Thing implements Comparable<Thing> {
 
     /**
      * Creates a string representation of this class
+     *
      * @return a string representation of this class
      */
     @Override
     public String toString() {
         return name + " " + index + " ";
     }
+
+    /**
+     * A comparator for thing names
+     */
+    public static Comparator<Thing> nameComparator = new Comparator<Thing>() {
+        public int compare(Thing t1, Thing t2) {
+            return t1.getName().compareTo(t2.getName());
+        }
+    };
 }
