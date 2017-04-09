@@ -90,45 +90,5 @@ public abstract class Ship extends Thing {
         return jobs;
     }
 
-
-    /**
-     * A comparator for ship weights
-     */
-    public static Comparator<Ship> weightComparator = new Comparator<Ship>() {
-                public int compare(Ship s1, Ship s2) {
-                    return Double.compare(s1.getWeight(),
-                            s2.getWeight());
-                }
-            };
-
-    /**
-     * A comparator for ship drafts
-     */
-    public static Comparator<Ship> draftComparator = new Comparator<Ship>() {
-        public int compare(Ship s1, Ship s2) {
-            return Double.compare(s1.getDraft(),
-                    s2.getDraft());
-        }
-    };
-
-    /**
-     * A comparator for ship width
-     */
-    public static Comparator<Ship> widthComparator = new Comparator<Ship>() {
-        public int compare(Ship s1, Ship s2) {
-            return Double.compare(s1.getWidth(),
-                    s2.getWidth());
-        }
-    };
-
-    /**
-     * A comparator for ship lengths
-     */
-    public static Comparator<Ship> lengthComparator = new Comparator<Ship>() {
-        public int compare(Ship s1, Ship s2) {
-            return Double.compare(s1.getLength(),
-                    s2.getLength());
-        }
-    };
 }
 

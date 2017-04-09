@@ -10,12 +10,14 @@ package main;
 import main.thing.*;
 import main.thing.ship.CargoShip;
 import main.thing.ship.PassengerShip;
+import main.thing.ship.Ship;
 import main.ui.SeaPortUI;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class SeaPortProgram {
@@ -178,10 +180,10 @@ public class SeaPortProgram {
         // sort it all
         Collections.sort(world.getPorts(), Thing.nameComparator);
         world.getPorts().forEach( port -> {
-            Collections.sort(port.getPersons(), Thing.nameComparator);
-            Collections.sort(port.getDocks(), Thing.nameComparator);
-            Collections.sort(port.getShips(), Thing.nameComparator);
-            Collections.sort(port.getQue(), Thing.nameComparator);
+//            Collections.sort(port.getPersons(), Thing.nameComparator);
+//            Collections.sort(port.getDocks(), Thing.nameComparator);
+            Collections.sort(port.getShips(), Comparator.comparing(Ship::getWeight).reversed());
+//            Collections.sort(port.getQue(), Thing.nameComparator);
         });
     }
 

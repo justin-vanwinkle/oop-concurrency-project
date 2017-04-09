@@ -79,7 +79,6 @@ public class World extends Thing {
         // add this thing to its parent
         Thing parent = getThing( thing.getParentId() );
 
-
         // if this is a ship
         if ( thing instanceof Ship ) {
             SeaPort port;
