@@ -8,7 +8,6 @@
 package main.thing;
 
 import java.lang.*;
-import java.util.Comparator;
 import java.util.regex.Pattern;
 
 public abstract class Thing {
@@ -108,15 +107,7 @@ public abstract class Thing {
      */
     @Override
     public String toString() {
-        return name + " " + index + " ";
+        return name + " " + index;
     }
 
-    /**
-     * A comparator for thing names
-     */
-    public static Comparator<Thing> nameComparator = new Comparator<Thing>() {
-        public int compare(Thing t1, Thing t2) {
-            return t1.getName().compareTo(t2.getName());
-        }
-    };
 }

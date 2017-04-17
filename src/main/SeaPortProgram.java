@@ -10,14 +10,11 @@ package main;
 import main.thing.*;
 import main.thing.ship.CargoShip;
 import main.thing.ship.PassengerShip;
-import main.thing.ship.Ship;
 import main.ui.SeaPortUI;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Scanner;
 
 public class SeaPortProgram {
@@ -29,7 +26,7 @@ public class SeaPortProgram {
      */
     public SeaPortProgram() {
         // get a UI and pass it context to this object
-        SeaPortUI ui = new SeaPortUI(this);
+        new SeaPortUI(this);
     }
 
     /**
@@ -38,7 +35,7 @@ public class SeaPortProgram {
      * @return an ArrayList of Strings representing each object definition in the file
      */
     public static ArrayList<String> parseObjectDefinitions(String filePath) {
-        // get a list to hold the linets
+        // get a list to hold the lines
         ArrayList<String> lines = new ArrayList<>();
 
         // try with resources for reading the file
@@ -176,15 +173,6 @@ public class SeaPortProgram {
             // add this thing to the master map
             world.addThingToParent(thing);
         }
-
-        // sort it all
-        Collections.sort(world.getPorts(), Thing.nameComparator);
-        world.getPorts().forEach( port -> {
-//            Collections.sort(port.getPersons(), Thing.nameComparator);
-//            Collections.sort(port.getDocks(), Thing.nameComparator);
-            Collections.sort(port.getShips(), Comparator.comparing(Ship::getWeight).reversed());
-//            Collections.sort(port.getQue(), Thing.nameComparator);
-        });
     }
 
 
@@ -204,7 +192,7 @@ public class SeaPortProgram {
     public static void main(String[] args) {
 
         // instantiate this program
-        SeaPortProgram spp = new SeaPortProgram();
+        new SeaPortProgram();
     }
 
 }

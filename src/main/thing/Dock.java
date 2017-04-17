@@ -36,23 +36,22 @@ public class Dock extends Thing {
     }
 
     /**
+     * A getter for the ship of this dock
+     * @return ship
+     */
+    public Ship getShip() {
+        return ship;
+    }
+
+    /**
      * Creates a string representation of this class
      * @return a string representation of this class
      */
     @Override
     public String toString() {
-        // get a string builder and add the super string
-        StringBuilder sb = new StringBuilder("Dock: " + super.toString());
-
-        // if a ship exists, add its string
-        if (ship != null) {
-            sb.append("\n  Ship: " + ship.toString());
-        }
-        // otherwise, note the lack of a ship
-        else sb.append("\n No Ship");
-
-        return sb.toString() ;
+        return "Dock: " + super.toString() ;
     }
+
 
 
 }

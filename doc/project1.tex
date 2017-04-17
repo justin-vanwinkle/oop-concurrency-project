@@ -76,7 +76,7 @@
 \fi
 \hypersetup{breaklinks=true,
             pdfauthor={},
-            pdftitle={Project 1: Sea Port Program},
+            pdftitle={Project 2: Sea Port Program},
             colorlinks=true,
             citecolor=blue,
             urlcolor=blue,
@@ -110,38 +110,27 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 % Essential manuscript parts
-  \title{Project 1: Sea Port Program}
+  \title{Project 2: Sea Port Program}
 
-  \shorttitle{Project 1}
+  \shorttitle{Project 2}
 
 
-  \author{Justin VanWinkle\textsuperscript{1,2}}
+  \author{Justin VanWinkle}
 
   \def\affdep{{""}}%
   \def\affcity{{""}}%
 
   \affiliation{
     \vspace{0.5cm}
-          \textsuperscript{1} University of Maryland University College\\
-          \textsuperscript{2} Wycliffe Associates, Inc.  }
+          \textsuperscript{} 9 April 2017  }
 
  % If no author_note is defined give only author information if available
     \authornote{
     \newcounter{author}
-                      Correspondence concerning this article should be addressed to Justin VanWinkle, 281 4th St, Geneva, FL 32732. E-mail: \href{mailto:justin@swissarmydev.com}{\nolinkurl{justin@swissarmydev.com}}
-                }
+                        }
   
 
-  \abstract{This paper is dedicated to a project developed in a course on
-object-oriented programming and concurrency. It explores the decisions
-made while designing the program, the way a user should go about making
-use of the program, standard practices for testing the program, lessons
-learned while}
-  \keywords{java,object-oriented \\
-
-    
-  }
-
+  
 
 
 
@@ -171,12 +160,8 @@ isolated.
 \begin{itemize}
 \tightlist
 \item
-  It was determined that all classes that are representative of objects
-  in the input file would not instantiate a scanner so as to prevent
-  repetitive code across classes and also to prevent each class from
-  needing to know how its definition is formed in the input file. This
-  loosens the coupling in such a way that eases changes as a result of
-  changes in the structure of the input file.
+  I chose not to use the comparable interface on the Thing class,
+  because I don't believe it is needed and I don't want dead code.
 \item
   TDD was used for some areas of the program to ensure that changes in
   future iterations do not alter the functionality of those methods.
@@ -310,6 +295,26 @@ skill.
   \end{itemize}
 \end{itemize}
 
+\subsection{Sorting}\label{sorting}
+
+Sorting can be done on all lists and sub lists in the program. For
+convenience, the sort dialog will remain open until the user closes it.
+
+\subsubsection{How to sort}\label{how-to-sort}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Once a file has loaded, the \texttt{sort} button can be clicked which
+  will open a sort picking dialog.
+\item
+  On the sort picking dialog, select the desired sort options and click
+  \texttt{sort}.
+\item
+  Repeat until the desired sorts are achieved.
+\end{enumerate}
+
 \subsection{Special Features}\label{special-features}
 
 Nothing notable.
@@ -350,6 +355,36 @@ Nothing notable.
     construction of input.
   \end{itemize}
 \item
+  Searching \enquote{ar}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Input:} (1.txt) Containing names with
+    \texttt{\textbackslash{}*ar\textbackslash{}*} and
+    \texttt{Ar\textbackslash{}*}.
+  \item
+    \textbf{Expected:} Matches with names only containing
+    \texttt{\textbackslash{}*ar\textbackslash{}*}.
+  \item
+    \textbf{Result:} Search returns only names that contain
+    \texttt{\textbackslash{}*ar\textbackslash{}*}. (See figure 1)
+  \end{itemize}
+\item
+  Sorting All Ascending by name
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \textbf{Input:} (2.txt) An input file containing multiple ports.
+  \item
+    \textbf{Expected:} All items in the tree will be sorted in ascending
+    order by name.
+  \item
+    \textbf{Result:} All items are sorted in ascending order in the
+    tree. (See figure 2)
+  \end{itemize}
+\item
   Unit tests
 
   \begin{itemize}
@@ -385,29 +420,66 @@ front matter. A glorious combination when paired with Vim.
 
 \subsection{New Classes Used}\label{new-classes-used}
 
+\subsubsection{JScrollPane}\label{jscrollpane}
+
 While I purposefully avoid Java's built in UI libraries, it came as no
 surprise when I found myself using the JScrollPane class for the first
 time in this program. I did find JScrollPane to be comparatively easy to
 work with for the sake of just getting a scroll view set up.
 
+\subsubsection{JTree}\label{jtree}
+
+I found JTree to be easy to work with and rather intuitive. It did force
+me to refactor all of my \texttt{toString()} methods -- but for the
+better.
+
+\subsubsection{JSplitPane}\label{jsplitpane}
+
+Once again, easy and intuitive. I don't quite like JSplitPane, however,
+because I feel that it paves the way for a bad UX. That's purely opinion
+at this point, though.
+
 \subsection{Future Iterations}\label{future-iterations}
 
-In a future iteration, I would like to focus on pushing all UI driven
-events to the EDT and all other tasks onto other threads. In the words
-of Vern Gosdin, \enquote{This ain't my first rodeo.} Additionally, I
-would likely opt for some sort of utility class if too much begins to be
-repeated among the various classes. I already see where this might be
-possible as the search expands and I could offload the matching to a
-static utility method that just grabs the specified fields from each of
-the classes for comparison. Thing implements the comparable interface,
-but makes no actual use of the interface. Currently, the compareTo()
-method is overridden in Thing, but in the future, Thing need to be an
-abstract class and all subclasses will need to override this comparable
-method.
+Project 1: In a future iteration, I would like to focus on pushing all
+UI driven events to the EDT and all other tasks onto other threads. In
+the words of Vern Gosdin, \enquote{This ain't my first rodeo.}
+Additionally, I would likely opt for some sort of utility class if too
+much begins to be repeated among the various classes. I already see
+where this might be possible as the search expands and I could offload
+the matching to a static utility method that just grabs the specified
+fields from each of the classes for comparison. Thing implements the
+comparable interface, but makes no actual use of the interface.
+Currently, the compareTo() method is overridden in Thing, but in the
+future, Thing need to be an abstract class and all subclasses will need
+to override this comparable method. Lastly, there is plenty of room for
+additional unit tests. New unit tests should be written on any logic
+code before any alterations are made for concurrency to ensure proper
+results.
+
+Project 2: The main UI class is getting cumbersome. I would like to see
+it be split out into a second class as appropriate. The two UI classes
+have some repetitive code that could go into a static method of a
+utility class. The search could allow for more robust options such as
+searching only on Persons.
+
+\section{Figures}\label{figures}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics{/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/diagram.png}
+\includegraphics{/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2search.png}
+\caption{Search Test}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2sort.png}
+\caption{Sort Test}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2diagram.png}
 \caption{UML Diagram}
 \end{figure}
 

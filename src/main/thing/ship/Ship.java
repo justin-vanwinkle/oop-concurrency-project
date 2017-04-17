@@ -11,7 +11,6 @@ import main.portTime.PortTime;
 import main.thing.Job;
 import main.thing.Thing;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 public abstract class Ship extends Thing {
     PortTime arrivalTime
@@ -80,14 +79,6 @@ public abstract class Ship extends Thing {
     @Override
     public String toString() {
         return super.toString();
-    }
-
-    /**
-     * Gets the jobs from this ship
-     * @return an ArrayList of jobs for this ship
-     */
-    public ArrayList<Job> getJobs() {
-        return jobs;
     }
 
 }

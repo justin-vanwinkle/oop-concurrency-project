@@ -1,30 +1,22 @@
-Maps not converted to arraylists to preserve functionality.
-No reason to sort those in the structure.
-
-
 ---
-title             : "Project 1: Sea Port Program"
-shorttitle        : "Project 1"
+title             : "Project 2: Sea Port Program"
+shorttitle        : "Project 2"
 
 author: 
   - name          : "Justin VanWinkle"
-    affiliation   : "1,2"
-    corresponding : yes    # Define only one corresponding author
+    affiliation   : ""
+    corresponding : no    # Define only one corresponding author
     address       : "281 4th St, Geneva, FL 32732"
     email         : "justin@swissarmydev.com"
 
 affiliation:
-  - id            : "1"
-    institution   : "University of Maryland University College"
-  - id            : "2"
-    institution   : "Wycliffe Associates, Inc."
+  - id            : ""
+    institution   : "9 April 2017"
 
 author_note: >
   
 abstract: >
-  This paper is dedicated to a project developed in a course on object-oriented programming and concurrency.  It explores the decisions made while designing the program, the way a user should go about making use of the program, standard practices for testing the program, lessons learned while 
   
-keywords          : "java,object-oriented"
 wordcount         : 
 
 figsintext        : yes
@@ -47,7 +39,7 @@ library("papaja")
 From a high level, this program has been built with a class that contains the UI separate from any workflow logic.  This paves the way for several simplistic approaches when concurrency is included into the program in a future iteration.  One such example would be creating the world using a thread that is separate from that of the Event Dispatch Thread that would be used by default when calling a function from an event listener that is attached to a swing component.  Such a separation becomes easily manageable when business logic and view logic remain isolated.
 
 ## Decisions
-* It was determined that all classes that are representative of objects in the input file would not instantiate a scanner so as to prevent repetitive code across classes and also to prevent each class from needing to know how its definition is formed in the input file.  This loosens the coupling in such a way that eases changes as a result of changes in the structure of the input file.
+* I chose not to use the comparable interface on the Thing class, because I don't believe it is needed and I don't want dead code.
 * TDD was used for some areas of the program to ensure that changes in future iterations do not alter the functionality of those methods.
 * A map was used in the World class to track all objects for two main reasons.  First, the complexity of creating the model is greatly reduced since parent objects can be found without having to search for them.  Second, this allows for O(n) lookup time for any object that exists in the World.  So for the purposes of this class, the time needed to create the World is drastically reduced -- especially for very large input files.
 
@@ -97,6 +89,14 @@ Searching returns a list of all *Things* that have a Name or Index that match th
     + Matches "Sara" and "Archie"
 For more extended documentation on regex patterns, [go here](http://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html).
 
+## Sorting
+Sorting can be done on all lists and sub lists in the program.  For convenience, the sort dialog will remain open until the user closes it.
+
+### How to sort
+1. Once a file has loaded, the `sort` button can be clicked which will open a sort picking dialog.
+2. On the sort picking dialog, select the desired sort options and click `sort`.
+3. Repeat until the desired sorts are achieved.
+
 ## Special Features
 Nothing notable.
 
@@ -109,7 +109,15 @@ Nothing notable.
     + **Input:** (2.txt) Using an input file that is extremely large to ensure no allocation issues
     + **Expected:** No errors and output that displays an appropriate data structure to match the input.
     + **Result:** No errors thrown and output matches an appropriate construction of input.
-3. Unit tests
+3. Searching "ar"
+    * **Input:** (1.txt) Containing names with `\*ar\*` and `Ar\*`.
+    * **Expected:** Matches with names only containing `\*ar\*`.
+    * **Result:** Search returns only names that contain `\*ar\*`. (See figure 1)
+4. Sorting All Ascending by name
+    * **Input:** (2.txt) An input file containing multiple ports.
+    * **Expected:** All items in the tree will be sorted in ascending order by name.
+    * **Result:** All items are sorted in ascending order in the tree. (See figure 2)
+5. Unit tests
     + Unit tests were written to ensure that units of code perform the same basic function even after changes are made.
     + **Expected:** All unit tests should pass.
     + **Result:** All unit tests pass.
@@ -121,12 +129,28 @@ In the coming sections, consideration will be given to particular pain points, g
 Since discovering Pandoc, I have written all of my professional documentation and papers in markdown and used Pandoc to convert them to whatever end format I require.  Markdown allows me to focus on content rather than formatting and thus saves great amounts of time.  One particular hurdle in writing this documentation was finding a way to use \LaTeX\ to handle the formatting in a way that was consistent with the APA style guide.  As a result, I came across a set of tools that allows me to continue using Pandoc to pipe everything through a template that \LaTeX\ uses to ultimately format my paper perfectly according to the APA style -- and all I ever did was write this in markdown with some yaml front matter.  A glorious combination when paired with Vim. 
 
 ## New Classes Used
+
+### JScrollPane
 While I purposefully avoid Java's built in UI libraries, it came as no surprise when I found myself using the JScrollPane class for the first time in this program.  I did find JScrollPane to be comparatively easy to work with for the sake of just getting a scroll view set up.
 
-## Future Iterations
-In a future iteration, I would like to focus on pushing all UI driven events to the EDT and all other tasks onto other threads.  In the words of Vern Gosdin, "This ain't my first rodeo."  Additionally, I would likely opt for some sort of utility class if too much begins to be repeated among the various classes.  I already see where this might be possible as the search expands and I could offload the matching to a static utility method that just grabs the specified fields from each of the classes for comparison.  Thing implements the comparable interface, but makes no actual use of the interface.  Currently, the compareTo() method is overridden in Thing, but in the future, Thing need to be an abstract class and all subclasses will need to override this comparable method.  Lastly, there is plenty of room for additional unit tests.  New unit tests should be written on any logic code before any alterations are made for concurrency to ensure proper results.
+### JTree
+I found JTree to be easy to work with and rather intuitive.  It did force me to refactor all of my `toString()` methods -- but for the better.
 
-![UML Diagram](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/diagram.png)
+### JSplitPane
+Once again, easy and intuitive.  I don't quite like JSplitPane, however, because I feel that it paves the way for a bad UX.  That's purely opinion at this point, though.
+
+## Future Iterations
+Project 1: In a future iteration, I would like to focus on pushing all UI driven events to the EDT and all other tasks onto other threads.  In the words of Vern Gosdin, "This ain't my first rodeo."  Additionally, I would likely opt for some sort of utility class if too much begins to be repeated among the various classes.  I already see where this might be possible as the search expands and I could offload the matching to a static utility method that just grabs the specified fields from each of the classes for comparison.  Thing implements the comparable interface, but makes no actual use of the interface.  Currently, the compareTo() method is overridden in Thing, but in the future, Thing need to be an abstract class and all subclasses will need to override this comparable method.  Lastly, there is plenty of room for additional unit tests.  New unit tests should be written on any logic code before any alterations are made for concurrency to ensure proper results.
+
+Project 2: The main UI class is getting cumbersome.  I would like to see it be split out into a second class as appropriate.  The two UI classes have some repetitive code that could go into a static method of a utility class.  The search could allow for more robust options such as searching only on Persons.
+
+# Figures
+
+![Search Test](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2search.png)
+
+![Sort Test](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2sort.png)
+
+![UML Diagram](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2diagram.png)
 
 \setlength{\parindent}{-0.5in}
 \setlength{\leftskip}{0.5in}

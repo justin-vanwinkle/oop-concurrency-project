@@ -20,8 +20,8 @@ class WorldTest extends GroovyTestCase {
         world.addThingToParent(new SeaPort("port", 1, 0))
         world.addThingToParent(new Dock("dock", 2, 1))
         world.addThingToParent(new PassengerShip("pship", 3, 2, 1.1, 1.1, 1.1, 1.1, 1, 1, 1))
-        world.addThingToParent(new CargoShip("cship", 4, 3, 1.1, 1.1, 1.1, 1.1, 1, 1, 1))
-        world.addThingToParent(new Person("person", 5, 4, "clerk"))
+        world.addThingToParent(new CargoShip("cship", 4, 1, 1.1, 1.1, 1.1, 1.1, 1, 1, 1))
+        world.addThingToParent(new Person("person", 5, 1, "clerk"))
 
         ArrayList<String> r = new ArrayList<>();
         r.add("test")

@@ -9,7 +9,6 @@ package main.thing;
 
 
 import main.thing.ship.Ship;
-
 import java.util.*;
 
 public class SeaPort extends Thing {
@@ -34,13 +33,14 @@ public class SeaPort extends Thing {
      * Adds a ship to this port
      * @param ship the ship to be added
      */
-    public void addShip(Ship ship, boolean isDocked) {
+    public boolean addShip(Ship ship, boolean isDocked) {
         // add this ship to the list of ships
-        getShips().add(ship);
+        boolean flag = getShips().add(ship);
 
         if (!isDocked) {
-            getQue().add(ship);
+            flag = getQue().add(ship);
         }
+        return flag;
     }
 
     public void addPerson(Person person) {
@@ -67,25 +67,7 @@ public class SeaPort extends Thing {
      */
     @Override
     public String toString() {
-        // get a string builder and append the super class string
-        StringBuilder sb = new StringBuilder("\n\n\nSeaPort: " + super.toString() + "\n");
-
-        // iterate over the docks and append each
-        docks.forEach( dock-> sb.append("\n " + dock.toString()) );
-
-        // iterate over the que and add to string
-        sb.append("\n\n --- List of all ships: in que:");
-        getQue().forEach(ship -> sb.append("\n  > " + ship.toString()) );
-
-        // iterate over all ships and add to string
-        sb.append("\n\n --- List of all ships:");
-        ships.forEach( ship -> sb.append("\n  > " + ship.toString()) );
-
-        // iterate over all persons and add to string
-        sb.append("\n\n --- List of all persons:");
-        persons.forEach( port -> sb.append("\n  > " + port.toString()) );
-
-        return sb.toString();
+        return "SeaPort: " + super.toString();
     }
 
     /**
@@ -113,7 +95,7 @@ public class SeaPort extends Thing {
 
     /**
      * Gets the docks of this port
-     * @return a map containing docks
+     * @return docks
      */
     public ArrayList<Dock> getDocks() {
         return docks;
@@ -121,7 +103,7 @@ public class SeaPort extends Thing {
 
     /**
      * Gets the ships of this port
-     * @return a map containing ships
+     * @return ships
      */
     public ArrayList<Ship> getShips() {
         return ships;
@@ -129,11 +111,16 @@ public class SeaPort extends Thing {
 
     /**
      * Gets the persons of this port
-     * @return a map containing the persons
+     * @return the persons
      */
     public ArrayList<Person> getPersons() {
         return persons;
     }
+
+    /**
+     * Gets the que of this port
+     * @return the que
+     */
 
     public ArrayList<Ship> getQue() {
         return que;

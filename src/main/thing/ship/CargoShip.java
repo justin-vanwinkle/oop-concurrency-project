@@ -7,8 +7,6 @@
 
 package main.thing.ship;
 
-import main.thing.Job;
-
 public class CargoShip extends Ship{
     double cargoValue;
     double cargoVolume;
@@ -58,14 +56,7 @@ public class CargoShip extends Ship{
      */
     @Override
     public String toString() {
-        // get a string builder and add the super string to it
-        StringBuilder sb = new StringBuilder("Cargo ship: " + super.toString());
-
-        // iterate over the jobs of this ship and append them to the string builder
-        for (Job job: getJobs()) {
-            sb.append("\n" + job);
-        }
-        return sb.toString();
+        return "Cargo ship: " + super.toString();
     }
 
 

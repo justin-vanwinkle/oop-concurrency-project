@@ -59,7 +59,7 @@ public class Job extends Thing {
     @Override
     public String toString() {
         // get a string builder and append super string and duration
-        StringBuilder sb = new StringBuilder("Job: " + super.toString() + duration);
+        StringBuilder sb = new StringBuilder("Job: " + super.toString() + " " + duration);
 
         // iterate over the requirements and append them to the string
         for (String requirement: requirements) {

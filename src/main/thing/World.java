@@ -151,13 +151,7 @@ public class World extends Thing {
      */
     @Override
     public String toString() {
-        // get a string builder
-        StringBuilder sb = new StringBuilder(">>>>> The world:");
-
-        // iterate over the ports and add each one to the string
-        ports.forEach( port ->sb.append(port.toString()) );
-
-        return sb.toString();
+        return super.toString();
     }
 
 

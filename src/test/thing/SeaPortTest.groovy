@@ -1,6 +1,8 @@
 package test.thing
 
 import main.SeaPortProgram
+import main.thing.Dock
+import main.thing.Person
 import main.thing.SeaPort
 import main.thing.Thing
 import main.thing.ship.PassengerShip
@@ -28,84 +30,18 @@ class SeaPortTest extends GroovyTestCase {
     @Test
     void testAddChild() {
 
-        Thing child = new PassengerShip("ship", 2, 1, 1.1, 1.1, 1.1, 1.1, 1, 1, 1)
+        Thing child = new Dock("name", 1, 1)
         boolean result = sp.addChild(child)
         assertEquals(true, result)
     }
 
     @Test
-    void testWeightComparator() {
-        ArrayList<Ship> result = new ArrayList<>()
-        result.add(s1)
-        result.add(s3)
-        result.add(s2)
-        result.add(s4)
+    void testAddShip() {
+        boolean result = sp.addShip(s1, true)
+        assertEquals(true, result)
 
-        Collections.sort(result, Ship.weightComparator)
-
-        ArrayList<Ship> expected = new ArrayList<>()
-        expected.add(s1)
-        expected.add(s2)
-        expected.add(s3)
-        expected.add(s4)
-
-        assertEquals(expected, result)
+        result = sp.addShip(s2, false)
+        assertEquals(true, result)
     }
 
-    @Test
-    void testDraftComparator() {
-        ArrayList<Ship> result = new ArrayList<>()
-        result.add(s1)
-        result.add(s3)
-        result.add(s2)
-        result.add(s4)
-
-        Collections.sort(result, Ship.draftComparator)
-
-        ArrayList<Ship> expected = new ArrayList<>()
-        expected.add(s1)
-        expected.add(s2)
-        expected.add(s3)
-        expected.add(s4)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    void testLengthComparator() {
-        ArrayList<Ship> result = new ArrayList<>()
-        result.add(s1)
-        result.add(s3)
-        result.add(s2)
-        result.add(s4)
-
-        Collections.sort(result, Ship.lengthComparator)
-
-        ArrayList<Ship> expected = new ArrayList<>()
-        expected.add(s1)
-        expected.add(s2)
-        expected.add(s3)
-        expected.add(s4)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    void testWidthComparator() {
-        ArrayList<Ship> result = new ArrayList<>()
-        result.add(s1)
-        result.add(s3)
-        result.add(s2)
-        result.add(s4)
-
-        Collections.sort(result, Ship.widthComparator)
-
-        ArrayList<Ship> expected = new ArrayList<>()
-        expected.add(s1)
-        expected.add(s2)
-        expected.add(s3)
-        expected.add(s4)
-
-        assertEquals(expected, result)
-    }
 }
