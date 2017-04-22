@@ -175,6 +175,25 @@ public class SeaPortProgram {
         }
     }
 
+    /**
+     * A small workaround for the initial ships not having jobs when assigned to a dock
+     */
+    public void startWorld() {
+
+        world.getPorts().forEach(port -> {
+            new Thread(port).start();
+        });
+
+        world.getPorts().forEach(port -> {
+            port.getDocks().forEach(dock -> {
+                dock.getShip().getJobs().forEach(job -> {
+                    job.toggleGoFlag();
+                });
+            });
+        });
+
+    }
+
 
     /**
      * Gets the world of this class

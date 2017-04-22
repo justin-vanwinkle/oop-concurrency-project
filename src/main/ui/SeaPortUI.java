@@ -198,6 +198,8 @@ public class SeaPortUI {
         // enable buttons
         btnSort.setEnabled(true);
         btnSearch.setEnabled(true);
+
+        spp.startWorld();
     }
 
     /**

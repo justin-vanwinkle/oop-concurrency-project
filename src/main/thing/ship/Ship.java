@@ -12,7 +12,7 @@ import main.thing.Job;
 import main.thing.Thing;
 import java.util.ArrayList;
 
-public abstract class Ship extends Thing {
+public abstract class Ship extends Thing implements Runnable {
     PortTime arrivalTime
             , dockTime;
     private double draft;
@@ -20,6 +20,18 @@ public abstract class Ship extends Thing {
     private double weight;
     private double width;
     private ArrayList<Job> jobs = new ArrayList<>();
+    private Thread thread;
+    private Status status = Status.JOBS_PENDING;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public enum Status{JOBS_IN_PROGRESS, JOBS_COMPLETE, JOBS_PENDING}
 
     public double getDraft() {
         return draft;
@@ -53,8 +65,43 @@ public abstract class Ship extends Thing {
         this.length = length;
         this.width = width;
         this.draft = draft;
+        thread = new Thread(this);
+//        thread.start();
     }
 
+    @Override
+    public void run() {
+
+        boolean allJobsComplete = false;
+
+        // watch jobs for completion
+        for (int i=0; i<jobs.size(); i++) {
+            while (jobs.get(i).getStatus() != Job.Status.DONE) {
+                try {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e) {}
+            }
+
+            if (i == jobs.size()-1) {
+                allJobsComplete = true;
+            }
+        }
+
+        while (true) {
+            try {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e) {}
+
+            if (allJobsComplete) {
+                System.out.println("Ship " + getName() + " has completed all jobs");
+                // set status and notify of completion
+                status = Status.JOBS_COMPLETE;
+                break;
+            }
+        }
+    }
 
     /**
      * Performs a regex comparison to check for a match
@@ -81,5 +128,20 @@ public abstract class Ship extends Thing {
         return super.toString();
     }
 
+    public ArrayList<Job> getJobs() {
+        return jobs;
+    }
+
+    @Override
+    public boolean addChild(Thing child) {
+        if (child instanceof Job) {
+            return jobs.add((Job)child);
+        }
+        return false;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
 }
 

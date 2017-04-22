@@ -10,9 +10,18 @@ package main.thing;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class Job extends Thing {
+public class Job extends Thing implements Runnable{
     double duration;
     ArrayList<String> requirements = new ArrayList<>();
+    private Thread thread;
+    private Status status = Status.SUSPENDED;
+    private boolean goFlag = false;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public enum Status {RUNNING, SUSPENDED, WAITING, DONE}
 
     /**
      * The constructor for this class
@@ -26,6 +35,32 @@ public class Job extends Thing {
         super(name, index, parent);
         this.duration = duration;
         this.requirements = requirements;
+        thread = new Thread(this);
+        thread.start();
+    }
+
+    @Override
+    public synchronized void run() {
+        long runTime = 0;
+
+        while (runTime < duration) {
+
+            try {
+                Thread.sleep (1000);
+            } catch (InterruptedException e) {}
+
+            if (goFlag) {
+                status = Status.RUNNING;
+                runTime += 10;
+            }
+
+            else {
+                status = Status.SUSPENDED;
+            }
+
+        }
+
+        status = Status.DONE;
     }
 
     /**
@@ -68,4 +103,12 @@ public class Job extends Thing {
         return sb.toString();
     }
 
+    public boolean toggleGoFlag() {
+        goFlag = !goFlag;
+        return goFlag;
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
 }

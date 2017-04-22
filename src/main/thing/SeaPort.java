@@ -11,7 +11,7 @@ package main.thing;
 import main.thing.ship.Ship;
 import java.util.*;
 
-public class SeaPort extends Thing {
+public class SeaPort extends Thing implements Runnable {
     private ArrayList<Dock> docks = new ArrayList<>();
     private ArrayList<Ship> que = new ArrayList<>();
     private ArrayList<Ship> ships = new ArrayList<>();
@@ -19,6 +19,34 @@ public class SeaPort extends Thing {
 
     public SeaPort(String name, int index, int parent) {
         super(name, index, parent);
+    }
+
+    @Override
+    public synchronized void run() {
+
+        while (true) {
+
+            try {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e) {}
+
+            docks.forEach(dock -> {
+
+                Ship s = dock.getShip();
+                if(s.getThread().getState() == Thread.State.NEW) {
+                    s.getThread().start();
+                }
+
+                if (s != null && s.getStatus() == Ship.Status.JOBS_COMPLETE) {
+                    if (!que.isEmpty()) {
+                        dock.addChild(que.remove(0));
+                    }
+                }
+
+            });
+        }
+
     }
 
     /**

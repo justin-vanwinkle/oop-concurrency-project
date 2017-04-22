@@ -24,11 +24,14 @@ public class Dock extends Thing {
      */
     @Override
     public boolean addChild(Thing child) {
-        //TODO rename this method to something more meaningful
+        System.out.println("Ship " + child.getName() + " going into dock " + getName());
 
         // if this is a ship, place it in this dock
         if (child instanceof Ship) {
             ship = (Ship) child;
+            ship.setStatus(Ship.Status.JOBS_IN_PROGRESS);
+            //ship.getThread().start();
+            ship.getJobs().forEach(job -> job.toggleGoFlag());
             return true;
         }
 
@@ -51,7 +54,5 @@ public class Dock extends Thing {
     public String toString() {
         return "Dock: " + super.toString() ;
     }
-
-
 
 }

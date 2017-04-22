@@ -1,0 +1,57 @@
+// File: 4.txt
+// Data file for SeaPort projects
+// Date: Sat Apr 22 11:11:32 EDT 2017
+// parameters: 2 2 2 2 2 2
+//   ports, docks, pships, cships, jobs, persons
+
+// port   name index parent(null)
+//    port   <string> <int> <int>
+port Tokushima 10000 0
+port Port_Noire 10001 0
+
+// dock   name index parent(port)
+//    dock   <string> <int> <int>
+  dock Pier_0 20000 10000 30000
+  dock Pier_1 20001 10000 30001
+  dock Pier_3 20003 10001 30003
+  dock Pier_2 20002 10001 30002
+
+// pship  name index parent(dock/port) weight length width draft numPassengers numRooms numOccupied
+//    pship  <string> <int> <int> <double> <double> <double> <double> <int> <int> <int>
+    pship               Repays 30002 20002 88.67 264.78 31.66 44.27 423 988 211
+    pship            Ayatollah 30000 20000 223.37 456.08 114.82 33.74 257 142 128
+    pship        Expectorating 30001 20001 69.28 349.64 63.34 40.24 2971 899 899
+    pship                Moves 30003 20003 242.88 411.23 31.55 20.05 1518 595 595
+
+// cship  name index parent(dock/port) weight length width draft cargoWeight cargoVolume cargoValue
+//    cship  <string> <int> <int> <double> <double> <double> <double> <double> <double> <double>
+    cship              Leading 40000 10000 239.64 462.14 80.84 32.45 46.16 133.42 417.36
+    cship           Rebuttably 40003 10001 63.69 433.60 109.40 33.97 96.61 198.20 326.28
+    cship         Articulation 40001 10000 158.36 488.24 103.11 23.41 66.58 194.12 637.53
+    cship               Rumors 40002 10001 95.62 426.21 35.53 32.32 31.31 172.60 348.24
+
+// person name index parent skill
+//    person <string> <int> <int> <string>
+    person                 Erma 50000 10000 engineer
+    person                 Josh 50001 10000 mechanic
+    person                  Jim 50003 10001 engineer
+    person               Regina 50002 10001 driver
+
+// job    name index parent duration [skill]* (zero or more, matches skill in person, may repeat)
+//    job    <string> <int> <int> <double> [<string>]*
+    job         Job_77_68_81 60010 30003 80.96
+    job         Job_28_76_57 60009 30002 28.31 electrician mechanic mate
+    job         Job_64_94_13 60013 40002 53.39 inspector stevedore
+    job         Job_88_42_54 60005 40000 63.39 janitor
+    job         Job_23_28_23 60012 40002 68.02
+    job         Job_53_76_41 60014 40003 67.18 stevedore
+    job         Job_62_88_19 60008 30002 65.81 carpenter cleaner
+    job         Job_51_25_42 60015 40003 63.39 painter driver cleaner
+    job         Job_70_72_40 60003 30001 31.11 painter carpenter carpenter
+    job         Job_31_15_62 60001 30000 73.73
+    job         Job_35_85_91 60002 30001 56.04 stevedore
+    job         Job_59_34_95 60006 40001 80.18
+    job         Job_62_47_50 60000 30000 86.62 craneOperator
+    job         Job_82_86_88 60007 40001 100.28
+    job         Job_93_89_52 60011 30003 56.07 janitor carpenter mate
+    job         Job_77_81_15 60004 40000 44.27 captain
