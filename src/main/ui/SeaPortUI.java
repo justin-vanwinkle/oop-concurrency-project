@@ -8,6 +8,7 @@
 package main.ui;
 
 import main.SeaPortProgram;
+import main.thing.Job;
 import main.thing.Thing;
 import main.thing.ship.Ship;
 
@@ -15,6 +16,7 @@ import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.*;
 import java.util.ArrayList;
@@ -121,6 +123,7 @@ public class SeaPortUI {
         root = new DefaultMutableTreeNode("The World");
         tree = new JTree(root);
         tree.setRootVisible(false);
+        tree.setCellRenderer(new ProgressBarRenderer());
         JScrollPane treeScroll = new JScrollPane(tree);
 
         // add text area
@@ -254,8 +257,15 @@ public class SeaPortUI {
                 DefaultMutableTreeNode dockNode = new DefaultMutableTreeNode(dock);
                 docksNode.add(dockNode);
 
-                // add the docked ship here
-                dockNode.add(new DefaultMutableTreeNode(dock.getShip()));
+                // add ship to dock
+                DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode(dock.getShip());
+                dockNode.add(shipNode);
+
+                for (Job job: dock.getShip().getJobs()) {
+                    DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
+                    shipNode.add(jobNode);
+                }
+
             });
 
             // add each ship to ships
@@ -278,8 +288,10 @@ public class SeaPortUI {
 
         });
 
-        // reload
-        ((DefaultTreeModel)tree.getModel()).reload(root);
+        ((DefaultTreeModel)tree.getModel()).nodeStructureChanged(root);
+        for (int i = 0; i < tree.getRowCount(); i++) {
+            tree.expandRow(i);
+        }
     }
 
     /**
@@ -409,5 +421,51 @@ public class SeaPortUI {
 
         // redraw the tree
         drawTree();
+    }
+
+    class ProgressBarRenderer extends DefaultTreeCellRenderer {
+
+        private final JProgressBar bar = new JProgressBar(0, 100);
+
+        public ProgressBarRenderer() {
+            super();
+            setOpaque(true);
+//            setClosedIcon(new IconUIResource(new NodeIcon('+')));
+//            setOpenIcon(new IconUIResource(new NodeIcon('-')));
+            bar.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 5));
+        }
+
+        @Override
+        public Component getTreeCellRendererComponent(JTree tree, final Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            Object obj = ((DefaultMutableTreeNode) value).getUserObject();
+            if (obj instanceof Job) {
+                int progress = ((Job) obj).getProgress();
+                bar.setValue(progress);
+                bar.setStringPainted(true);
+
+                JPanel panel = new JPanel();
+                panel.setLayout(new BorderLayout());
+
+                JLabel label = new JLabel(obj.toString());
+
+                panel.add(label, BorderLayout.EAST);
+                panel.add(bar, BorderLayout.WEST);
+
+                return panel;
+            }
+
+            else if (obj instanceof Thing) {
+                super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+                return this;
+            }
+
+            else if (obj instanceof String || obj == null) {
+                super.getTreeCellRendererComponent(tree, value, selected, expanded, leaf, row, hasFocus);
+                return this;
+            }
+
+            return null;
+        }
+
     }
 }

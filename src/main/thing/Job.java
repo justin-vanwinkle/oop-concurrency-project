@@ -16,9 +16,14 @@ public class Job extends Thing implements Runnable{
     private Thread thread;
     private Status status = Status.SUSPENDED;
     private boolean goFlag = false;
+    private int progress;
 
     public Status getStatus() {
         return status;
+    }
+
+    public int getProgress() {
+        return progress;
     }
 
     public enum Status {RUNNING, SUSPENDED, WAITING, DONE}
@@ -52,6 +57,8 @@ public class Job extends Thing implements Runnable{
             if (goFlag) {
                 status = Status.RUNNING;
                 runTime += 10;
+                Double d = runTime / duration;
+                progress = d.intValue();
             }
 
             else {
@@ -60,6 +67,7 @@ public class Job extends Thing implements Runnable{
 
         }
 
+        progress = 100;
         status = Status.DONE;
     }
 
