@@ -9,13 +9,31 @@ package main.thing;
 
 import main.thing.ship.Ship;
 
-public class Dock extends Thing{
+public class Dock extends Thing implements Runnable{
     private Ship ship;
 
     public Dock(String name, int index, int parent) {
         super(name, index, parent);
+        Thread t = new Thread(this);
+        t.start();
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                Thread.sleep(100);
+            }
+            catch (InterruptedException e) {}
+
+            // if jobs complete, release the ship
+            if (ship != null) {
+                if (ship.getStatus() == Ship.Status.JOBS_COMPLETE) {
+                    ship = null;
+                }
+            }
+        }
+    }
 
     /**
      * Places a ship in this dock

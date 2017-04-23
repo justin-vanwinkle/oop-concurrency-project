@@ -56,7 +56,7 @@ public class Job extends Thing implements Runnable{
 
             if (goFlag) {
                 status = Status.RUNNING;
-                runTime += 10;
+                runTime += 1;
                 Double d = (runTime / duration) * 100;
                 progress = d.intValue();
             }
@@ -70,6 +70,16 @@ public class Job extends Thing implements Runnable{
         progress = 100;
         status = Status.DONE;
     }
+
+    public void suspend() {
+        goFlag = false;
+    }
+
+    public void cancel() {
+        goFlag = false;
+        status = Status.DONE;
+    }
+
 
     /**
      * Performs a regex comparison to check for a match

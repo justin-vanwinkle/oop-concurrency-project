@@ -10,16 +10,18 @@ package main.ui;
 import main.SeaPortProgram;
 import main.thing.Dock;
 import main.thing.Job;
-import main.thing.SeaPort;
 import main.thing.Thing;
 import main.thing.ship.Ship;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.ExpandVetoException;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,6 +44,8 @@ public class SeaPortUI {
     private JPanel textPanel;
     private JSplitPane splitPane;
     private JButton btnSort;
+    private JButton btnSuspendJob;
+    private JButton btnCancelJob;
 
     /**
      * The constructor for this UI
@@ -116,8 +120,14 @@ public class SeaPortUI {
         btnSearch = new JButton("Search");
         btnSearch.setEnabled(false);
 
-        btnSort = new JButton("Sort");
+        btnSort = new JButton("Sort Menu");
         btnSort.setEnabled(false);
+
+        btnCancelJob = new JButton("Cancel Job");
+        btnCancelJob.setEnabled(false);
+
+        btnSuspendJob = new JButton("Suspend Job");
+        btnSuspendJob.setEnabled(false);
 
         txtSearch = new JTextField();
 
@@ -139,14 +149,24 @@ public class SeaPortUI {
 
         // add components to panel
         addComponent(0,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnFileSelect);
-        addComponent(1,0,1,1,5,1,GridBagConstraints.BOTH, GridBagConstraints.EAST, btnPanel, txtSearch);
-        addComponent(2,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnSearch);
-        addComponent(0,1,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnSort);
+        addComponent(1,2,1,1,5,1,GridBagConstraints.BOTH, GridBagConstraints.EAST, btnPanel, txtSearch);
+        addComponent(2,2,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnSearch);
+        addComponent(2,0,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.EAST, btnPanel, btnSort);
+        addComponent(0,1,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnCancelJob);
+        addComponent(0,2,1,1,1,1,GridBagConstraints.NONE, GridBagConstraints.WEST, btnPanel, btnSuspendJob);
 
         // add listeners
         btnFileSelect.addActionListener(e -> chooseFileAction());
         btnSearch.addActionListener(e -> searchAction());
         btnSort.addActionListener(e -> new SortPicker(this));
+        btnSuspendJob.addActionListener(e -> suspendAction());
+        btnCancelJob.addActionListener(e -> cancelAction());
+        tree.addTreeWillExpandListener(new TreeWillExpandListener() {
+            public void treeWillExpand(TreeExpansionEvent e) { }
+            public void treeWillCollapse(TreeExpansionEvent e) throws ExpandVetoException {
+                throw new ExpandVetoException(e);
+            }
+        });
     }
 
     /**
@@ -203,8 +223,42 @@ public class SeaPortUI {
         // enable buttons
         btnSort.setEnabled(true);
         btnSearch.setEnabled(true);
+        btnCancelJob.setEnabled(true);
+        btnSuspendJob.setEnabled(true);
 
         spp.startWorld();
+    }
+
+    private void suspendAction() {
+
+        String s = (String)JOptionPane.showInputDialog(
+                frame, "Job ID to suspend:",
+                "Suspend Job",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "");
+
+        Thing thing = spp.getWorld().getThing(Integer.parseInt(s));
+        if (thing instanceof Job) {
+            ((Job) thing).suspend();
+        }
+    }
+
+    private void cancelAction() {
+
+        String s = (String)JOptionPane.showInputDialog(
+                frame, "Job ID to cancel:",
+                "Cancel Job",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                null,
+                "");
+
+        Thing thing = spp.getWorld().getThing(Integer.parseInt(s));
+        if (thing instanceof Job) {
+            ((Job) thing).cancel();
+        }
     }
 
     /**
@@ -242,7 +296,6 @@ public class SeaPortUI {
         // for each port
         for (int i=0; i<root.getChildCount(); i++) {
             DefaultMutableTreeNode portNode = (DefaultMutableTreeNode)root.getChildAt(i);
-            SeaPort port = (SeaPort) ((DefaultMutableTreeNode)root.getChildAt(i)).getUserObject();
 
             // for each dock
             for (int j=0; j<portNode.getChildCount(); j++) {
@@ -256,8 +309,20 @@ public class SeaPortUI {
                     DefaultMutableTreeNode dockNode = (DefaultMutableTreeNode) docksNode.getChildAt(k);
                     Dock dock = (Dock) ((DefaultMutableTreeNode)docksNode.getChildAt(k)).getUserObject();
 
+                    obj = ((DefaultMutableTreeNode) dockNode.getFirstChild()).getUserObject();
+                    if (obj instanceof String) {
+                        continue;
+                    }
+
                     // get the ship of this dock
-                    Ship ship = (Ship) ((DefaultMutableTreeNode) dockNode.getFirstChild()).getUserObject();
+                    Ship ship = (Ship) obj;
+
+                    if (dock.getShip() == null) {
+                        dockNode.removeAllChildren();
+                        DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode("Empty");
+                        dockNode.add(shipNode);
+                        ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
+                    }
 
                     // if the ship in dock is not ship in tree, replace
                     if (dock.getShip() != ship) {
@@ -268,11 +333,14 @@ public class SeaPortUI {
 
                         shipNode.removeAllChildren();
 
-                        // set jobs
-                        for (Job job : dock.getShip().getJobs()) {
-                            DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
-                            shipNode.add(jobNode);
+                        if (dock.getShip() != null) {
+                            // set jobs
+                            for (Job job : dock.getShip().getJobs()) {
+                                DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
+                                shipNode.add(jobNode);
+                            }
                         }
+
                         ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
                     }
                 }
@@ -500,7 +568,7 @@ public class SeaPortUI {
 
         public ProgressBarRenderer() {
             super();
-            setOpaque(true);
+//            setOpaque(true);
 //            setClosedIcon(new IconUIResource(new NodeIcon('+')));
 //            setOpenIcon(new IconUIResource(new NodeIcon('-')));
             bar.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 5));
@@ -510,6 +578,7 @@ public class SeaPortUI {
         public Component getTreeCellRendererComponent(JTree tree, final Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
             Object obj = ((DefaultMutableTreeNode) value).getUserObject();
             if (obj instanceof Job) {
+
                 int progress = ((Job) obj).getProgress();
                 bar.setValue(progress);
                 bar.setStringPainted(true);
@@ -521,7 +590,6 @@ public class SeaPortUI {
 
                 panel.add(label, BorderLayout.EAST);
                 panel.add(bar, BorderLayout.WEST);
-
                 return panel;
             }
 
