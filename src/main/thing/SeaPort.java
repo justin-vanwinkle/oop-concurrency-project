@@ -18,27 +18,37 @@ public class SeaPort extends Thing implements Runnable {
     private ArrayList<Person> persons = new ArrayList<>();
     private Thread thread;
 
+    /**
+     * Constructor for SeaPort
+     * @param name the name of the port
+     * @param index the index of the port
+     * @param parent the parent index of the port
+     */
     public SeaPort(String name, int index, int parent) {
         super(name, index, parent);
         thread = new Thread(this);
         thread.start();
     }
 
+    /**
+     * The workflow of a SeaPort thread
+     */
     @Override
     public synchronized void run() {
 
         while (true) {
 
             boolean dockIsRunning = false;
+
             try {
                 Thread.sleep(1000);
             }
             catch (InterruptedException e) {}
 
-
             for (Dock dock : docks) {
                 Ship ship = dock.getShip();
 
+                // note that a dock is running
                 if (dock.getThread().isAlive()) {
                     dockIsRunning = true;
                 }
@@ -48,14 +58,12 @@ public class SeaPort extends Thing implements Runnable {
                     dock.addChild(que.remove(0));
                 }
 
-                // place the next ship or kill the thread
-                else if (que.isEmpty() && ship == null) {
-
-                    if (dock.getThread().isAlive()) {
+                // set the thread to terminate
+                else if (que.isEmpty() && ship == null && dock.getThread().isAlive()) {
                         dock.stopThread();
-                    }
                 }
             }
+
             // shut down if no dock is running
             if (!dockIsRunning) {
                 break;
@@ -87,6 +95,10 @@ public class SeaPort extends Thing implements Runnable {
         return flag;
     }
 
+    /**
+     * Adds a person to this port
+     * @param person the person to be added
+     */
     public void addPerson(Person person) {
         getPersons().add(person);
     }
@@ -170,6 +182,10 @@ public class SeaPort extends Thing implements Runnable {
         return que;
     }
 
+    /**
+     * gets the thread this port is operating on
+     * @return the thread
+     */
     public Thread getThread() {
         return thread;
     }

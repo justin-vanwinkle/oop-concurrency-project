@@ -70,10 +70,14 @@ public abstract class Ship extends Thing implements Runnable {
         thread.start();
     }
 
+    /**
+     * The workflow of the ship thread
+     */
     @Override
     public void run() {
         isDocked = false;
 
+        // delay until docked
         while (!isDocked) {
             try {
                 Thread.sleep(500);
@@ -82,16 +86,17 @@ public abstract class Ship extends Thing implements Runnable {
             }
         }
 
-        boolean allJobsComplete = false;
-
         // watch jobs for completion
         for (int i=0; i<jobs.size(); i++) {
+
+            // hold on a job until it completes, the check the rest
             while (jobs.get(i).getStatus() != Job.Status.DONE) {
                 try {
                     Thread.sleep(100);
                 }
                 catch (InterruptedException e) {}
 
+                // ensure that all jobs started
                 jobs.forEach(job -> {
                     if (job.getStatus() == Job.Status.WAITING) {
                         job.begin();
@@ -100,26 +105,9 @@ public abstract class Ship extends Thing implements Runnable {
 
             }
 
+            // raise completion flag
             if (i == jobs.size() - 1) {
-                allJobsComplete = true;
-            }
-        }
-
-        while (true) {
-            try {
-                Thread.sleep(100);
-            }
-            catch (InterruptedException e) {}
-
-            if (allJobsComplete) {
-                // set status and notify of completion
                 status = Status.JOBS_COMPLETE;
-                try {
-                    thread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                break;
             }
         }
 
@@ -151,10 +139,19 @@ public abstract class Ship extends Thing implements Runnable {
         return super.toString();
     }
 
+    /**
+     * Gets the jobs of a ship
+     * @return the jobs of a ship
+     */
     public ArrayList<Job> getJobs() {
         return jobs;
     }
 
+    /**
+     * Adds a child to a ship
+     * @param child the child to be added
+     * @return true if the child was added, otherwise false
+     */
     @Override
     public boolean addChild(Thing child) {
         if (child instanceof Job) {
@@ -163,8 +160,21 @@ public abstract class Ship extends Thing implements Runnable {
         return false;
     }
 
+    /**
+     * raises the docked flag
+     */
     public void dock() { isDocked = true; }
+
+    /**
+     * Checks if the docked flag is raised
+     * @return the isDocked value
+     */
     public boolean isDocked() {return isDocked;}
+
+    /**
+     * Gets the thread of the ship
+     * @return the thread of the ship
+     */
     public Thread getThread() {
         return thread;
     }

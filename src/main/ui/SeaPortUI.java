@@ -229,8 +229,12 @@ public class SeaPortUI {
         btnSuspendJob.setEnabled(true);
     }
 
+    /**
+     * Gets a Job ID from the user and suspends the specified job
+     */
     private void suspendAction() {
 
+        // show dialog
         String s = (String)JOptionPane.showInputDialog(
                 frame, "Job ID to suspend:",
                 "Suspend Job",
@@ -239,14 +243,19 @@ public class SeaPortUI {
                 null,
                 "");
 
+        // parse and suspend
         Thing thing = spp.getWorld().getThing(Integer.parseInt(s));
         if (thing instanceof Job) {
             ((Job) thing).suspend();
         }
     }
 
+    /**
+     * Gets a Job ID from the user and cancels the specified job
+     */
     private void cancelAction() {
 
+        // show dialog
         String s = (String)JOptionPane.showInputDialog(
                 frame, "Job ID to cancel:",
                 "Cancel Job",
@@ -255,6 +264,7 @@ public class SeaPortUI {
                 null,
                 "");
 
+        // parse and cancel
         Thing thing = spp.getWorld().getThing(Integer.parseInt(s));
         if (thing instanceof Job) {
             ((Job) thing).cancel();
@@ -346,9 +356,10 @@ public class SeaPortUI {
 
                                 shipNode.removeAllChildren();
 
+                                // ships and jobs change, synchronize here
                                 if (dock.getShip() != null) {
                                     synchronized (dock.getShip()) {
-                                        // set jobs
+                                        // set jobs for ship
                                         for (Job job : dock.getShip().getJobs()) {
                                             synchronized (job) {
                                                 DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
@@ -357,14 +368,14 @@ public class SeaPortUI {
                                         }
                                     }
                                 }
-
+                                // note the change
                                 ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
                             }
-
                         }
                     }
                 }
 
+                // expand the tree
                 for (int i = 0; i < tree.getRowCount(); i++) {
                     tree.expandRow(i);
                 }
@@ -576,23 +587,41 @@ public class SeaPortUI {
 
     }
 
+    /**
+     * This class allows the rendering of a JProgressBar inside of the JTree
+     */
     class ProgressBarRenderer extends DefaultTreeCellRenderer {
 
         private final JProgressBar bar = new JProgressBar(0, 100);
 
+        /**
+         * Constructor for the renderer
+         */
         public ProgressBarRenderer() {
             super();
-//            setOpaque(true);
-//            setClosedIcon(new IconUIResource(new NodeIcon('+')));
-//            setOpenIcon(new IconUIResource(new NodeIcon('-')));
+            setOpaque(true);
             bar.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 5));
         }
 
+        /**
+         * Builds the component to be rendered in the JTree
+         * All following parameters are as defined in the Java 8 API documentation
+         * @param tree
+         * @param value
+         * @param selected
+         * @param expanded
+         * @param leaf
+         * @param row
+         * @param hasFocus
+         * @return the Object to be displayed in a JTree node
+         */
         @Override
         public Component getTreeCellRendererComponent(JTree tree, final Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
             Object obj = ((DefaultMutableTreeNode) value).getUserObject();
+
             if (obj instanceof Job) {
 
+                // build a progress bar
                 int progress = ((Job) obj).getProgress();
                 bar.setValue(progress);
                 bar.setStringPainted(true);
@@ -602,8 +631,10 @@ public class SeaPortUI {
 
                 JLabel label = new JLabel(obj.toString());
 
+                // place the items on the panel
                 panel.add(label, BorderLayout.EAST);
                 panel.add(bar, BorderLayout.WEST);
+
                 return panel;
             }
 
@@ -619,10 +650,5 @@ public class SeaPortUI {
 
             return null;
         }
-
-        public JProgressBar getBar() {
-            return bar;
-        }
-
     }
 }

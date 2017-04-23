@@ -44,16 +44,21 @@ public class Job extends Thing implements Runnable{
         thread.start();
     }
 
+    /**
+     * The workflow for the Job method
+     */
     @Override
     public void run() {
         long runTime = 0;
 
+        // run until the duration has passed
         while (runTime < duration) {
+
             try {
                 Thread.sleep (1000);
             } catch (InterruptedException e) {}
 
-
+            // progress if the goFlag is raised
             if (goFlag) {
                 status = Status.RUNNING;
                 runTime += 10;
@@ -65,32 +70,42 @@ public class Job extends Thing implements Runnable{
                 continue;
             }
 
+            else if (status == Status.DONE) {
+                break;
+            }
+
             else {
                 status = Status.SUSPENDED;
             }
         }
 
+        // duration has passed, clean up
         progress = 100;
         status = Status.DONE;
 
         return;
     }
 
+    /**
+     * Sets the progress of a job to suspend
+     */
     public void suspend() {
         goFlag = false;
     }
 
+    /**
+     * Sets the progress of a job to halt and sets the job as complete
+     */
     public void cancel() {
         goFlag = false;
         status = Status.DONE;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
+    /**
+     * Sets the job to begin progressing
+     */
     public void begin() { goFlag = true; }
+
     /**
      * Performs a regex comparison to check for a match
      * @param pattern the pattern to match on
@@ -131,11 +146,19 @@ public class Job extends Thing implements Runnable{
         return sb.toString();
     }
 
+    /**
+     * Toggles the progress of a job
+     * @return
+     */
     public boolean toggleGoFlag() {
         goFlag = !goFlag;
         return goFlag;
     }
 
+    /**
+     * Gets the thread of a job
+     * @return the thread of a job
+     */
     public Thread getThread() {
         return thread;
     }

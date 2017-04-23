@@ -14,15 +14,26 @@ public class Dock extends Thing implements Runnable{
     private Thread thread;
     private boolean runThread = true;
 
+    /**
+     * The constructor of Dock
+     * @param name the name of dock
+     * @param index the index of dock
+     * @param parent the index of the parent of dock
+     */
     public Dock(String name, int index, int parent) {
         super(name, index, parent);
         thread = new Thread(this);
         getThread().start();
     }
 
+    /**
+     * The workflow of Dock threads
+     */
     @Override
     public void run() {
+
         while (runThread) {
+
             try {
                 Thread.sleep(100);
             }
@@ -30,6 +41,7 @@ public class Dock extends Thing implements Runnable{
 
             if (ship != null) {
 
+                // dock the ship if it isn't docked
                 if (!ship.isDocked()) {
                     ship.dock();
                 }
@@ -86,16 +98,24 @@ public class Dock extends Thing implements Runnable{
         return "Dock: " + super.toString() ;
     }
 
+    /**
+     * Gets the thread of the dock
+     * @return the thread of the dock
+     */
     public Thread getThread() {
         return thread;
     }
 
+    /**
+     * Lowers the flag for the dock thread to continue running.
+     */
     public void stopThread() {
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         if (ship == null) {
             runThread = false;
         }

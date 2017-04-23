@@ -145,9 +145,14 @@ public class World extends Thing {
         return false;
     }
 
+    /**
+     * Checks for ports with active threads
+     * @return true if active ports, otherwise false
+     */
     public boolean activePorts() {
         boolean portsActive = false;
 
+        // check each port for a non-terminated state
         for (SeaPort port : ports) {
             if (port.getThread().getState() != Thread.State.TERMINATED) {
                 portsActive = true;
