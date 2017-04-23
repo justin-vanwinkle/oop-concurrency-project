@@ -33,12 +33,12 @@ public class SeaPort extends Thing implements Runnable {
 
             docks.forEach(dock -> {
 
-                Ship s = dock.getShip();
-                if(s.getThread().getState() == Thread.State.NEW) {
-                    s.getThread().start();
+                Ship ship = dock.getShip();
+                if(ship.getThread().getState() == Thread.State.NEW) {
+                    ship.getThread().start();
                 }
 
-                if (s != null && s.getStatus() == Ship.Status.JOBS_COMPLETE) {
+                if (ship != null && ship.getStatus() == Ship.Status.JOBS_COMPLETE) {
                     if (!que.isEmpty()) {
                         dock.addChild(que.remove(0));
                     }

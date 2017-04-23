@@ -8,7 +8,9 @@
 package main.ui;
 
 import main.SeaPortProgram;
+import main.thing.Dock;
 import main.thing.Job;
+import main.thing.SeaPort;
 import main.thing.Thing;
 import main.thing.ship.Ship;
 
@@ -232,6 +234,63 @@ public class SeaPortUI {
     }
 
 
+    /**
+     *
+     */
+    private void updateTree() {
+
+        // for each port
+        for (int i=0; i<root.getChildCount(); i++) {
+            DefaultMutableTreeNode portNode = (DefaultMutableTreeNode)root.getChildAt(i);
+            SeaPort port = (SeaPort) ((DefaultMutableTreeNode)root.getChildAt(i)).getUserObject();
+
+            // for each dock
+            for (int j=0; j<portNode.getChildCount(); j++) {
+                Object obj = ((DefaultMutableTreeNode)portNode.getChildAt(j)).getUserObject();
+                if (obj != "Docks") {
+                    continue;
+                }
+                DefaultMutableTreeNode docksNode = (DefaultMutableTreeNode)portNode.getChildAt(j);
+
+                for (int k=0; k<docksNode.getChildCount(); k++) {
+                    DefaultMutableTreeNode dockNode = (DefaultMutableTreeNode) docksNode.getChildAt(k);
+                    Dock dock = (Dock) ((DefaultMutableTreeNode)docksNode.getChildAt(k)).getUserObject();
+
+                    // get the ship of this dock
+                    Ship ship = (Ship) ((DefaultMutableTreeNode) dockNode.getFirstChild()).getUserObject();
+
+                    // if the ship in dock is not ship in tree, replace
+                    if (dock.getShip() != ship) {
+
+                        dockNode.removeAllChildren();
+                        DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode(dock.getShip());
+                        dockNode.add(shipNode);
+
+                        shipNode.removeAllChildren();
+
+                        // set jobs
+                        for (Job job : dock.getShip().getJobs()) {
+                            DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
+                            shipNode.add(jobNode);
+                        }
+                        ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
+                    }
+                }
+            }
+        }
+
+
+        for (int i = 0; i < tree.getRowCount(); i++) {
+            tree.expandRow(i);
+        }
+
+        tree.repaint();
+    }
+
+
+    /**
+     *
+     */
     private void drawTree() {
 
         // clear all
@@ -292,6 +351,18 @@ public class SeaPortUI {
         for (int i = 0; i < tree.getRowCount(); i++) {
             tree.expandRow(i);
         }
+
+        // kick off the tree updater
+        new Thread(() -> {
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException e) {}
+                updateTree();
+            }
+        }).start();
+
     }
 
     /**
@@ -465,6 +536,10 @@ public class SeaPortUI {
             }
 
             return null;
+        }
+
+        public JProgressBar getBar() {
+            return bar;
         }
 
     }

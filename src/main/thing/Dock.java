@@ -9,7 +9,7 @@ package main.thing;
 
 import main.thing.ship.Ship;
 
-public class Dock extends Thing {
+public class Dock extends Thing{
     private Ship ship;
 
     public Dock(String name, int index, int parent) {
@@ -30,7 +30,6 @@ public class Dock extends Thing {
         if (child instanceof Ship) {
             ship = (Ship) child;
             ship.setStatus(Ship.Status.JOBS_IN_PROGRESS);
-            //ship.getThread().start();
             ship.getJobs().forEach(job -> job.toggleGoFlag());
             return true;
         }

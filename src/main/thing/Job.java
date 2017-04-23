@@ -56,10 +56,9 @@ public class Job extends Thing implements Runnable{
 
             if (goFlag) {
                 status = Status.RUNNING;
-                runTime += 1;
+                runTime += 10;
                 Double d = (runTime / duration) * 100;
                 progress = d.intValue();
-                System.out.println(progress);
             }
 
             else {
