@@ -11,28 +11,43 @@ import main.thing.ship.Ship;
 
 public class Dock extends Thing implements Runnable{
     private Ship ship;
+    private Thread thread;
+    private boolean runThread = true;
 
     public Dock(String name, int index, int parent) {
         super(name, index, parent);
-        Thread t = new Thread(this);
-        t.start();
+        thread = new Thread(this);
+        getThread().start();
     }
 
     @Override
     public void run() {
-        while (true) {
+        while (runThread) {
             try {
                 Thread.sleep(100);
             }
             catch (InterruptedException e) {}
 
-            // if jobs complete, release the ship
             if (ship != null) {
+
+                if (!ship.isDocked()) {
+                    ship.dock();
+                }
+
+                // if the ship had no jobs, release it immediately
+                if (ship.getJobs().size() == 0) {
+                    ship.setStatus(Ship.Status.JOBS_COMPLETE);
+                }
+
+                // if jobs complete, release the ship
                 if (ship.getStatus() == Ship.Status.JOBS_COMPLETE) {
                     ship = null;
                 }
+
             }
         }
+
+        return;
     }
 
     /**
@@ -42,7 +57,6 @@ public class Dock extends Thing implements Runnable{
      */
     @Override
     public boolean addChild(Thing child) {
-        System.out.println("Ship " + child.getName() + " going into dock " + getName());
 
         // if this is a ship, place it in this dock
         if (child instanceof Ship) {
@@ -72,4 +86,18 @@ public class Dock extends Thing implements Runnable{
         return "Dock: " + super.toString() ;
     }
 
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void stopThread() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (ship == null) {
+            runThread = false;
+        }
+    }
 }

@@ -55,7 +55,7 @@ public class SeaPortUI {
         this.spp = spp;
 
         // initialize this ui
-        new Thread(() -> init() ).start();
+        init();
     }
 
     /**
@@ -161,6 +161,8 @@ public class SeaPortUI {
         btnSort.addActionListener(e -> new SortPicker(this));
         btnSuspendJob.addActionListener(e -> suspendAction());
         btnCancelJob.addActionListener(e -> cancelAction());
+
+        // prevent the tree from collapsing
         tree.addTreeWillExpandListener(new TreeWillExpandListener() {
             public void treeWillExpand(TreeExpansionEvent e) { }
             public void treeWillCollapse(TreeExpansionEvent e) throws ExpandVetoException {
@@ -225,8 +227,6 @@ public class SeaPortUI {
         btnSearch.setEnabled(true);
         btnCancelJob.setEnabled(true);
         btnSuspendJob.setEnabled(true);
-
-        spp.startWorld();
     }
 
     private void suspendAction() {
@@ -289,77 +289,98 @@ public class SeaPortUI {
 
 
     /**
-     *
+     *  Updates the tree until all ports have gone inactive then disposes of the thread
      */
     private void updateTree() {
 
-        // for each port
-        for (int i=0; i<root.getChildCount(); i++) {
-            DefaultMutableTreeNode portNode = (DefaultMutableTreeNode)root.getChildAt(i);
-
-            // for each dock
-            for (int j=0; j<portNode.getChildCount(); j++) {
-                Object obj = ((DefaultMutableTreeNode)portNode.getChildAt(j)).getUserObject();
-                if (obj != "Docks") {
-                    continue;
+        // kick off the tree updater
+        new Thread(() -> {
+            while (spp.getWorld().activePorts()) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
                 }
-                DefaultMutableTreeNode docksNode = (DefaultMutableTreeNode)portNode.getChildAt(j);
 
-                for (int k=0; k<docksNode.getChildCount(); k++) {
-                    DefaultMutableTreeNode dockNode = (DefaultMutableTreeNode) docksNode.getChildAt(k);
-                    Dock dock = (Dock) ((DefaultMutableTreeNode)docksNode.getChildAt(k)).getUserObject();
 
-                    obj = ((DefaultMutableTreeNode) dockNode.getFirstChild()).getUserObject();
-                    if (obj instanceof String) {
-                        continue;
-                    }
+                // for each port, add a dock
+                for (int i = 0; i < root.getChildCount(); i++) {
+                    DefaultMutableTreeNode portNode = (DefaultMutableTreeNode) root.getChildAt(i);
 
-                    // get the ship of this dock
-                    Ship ship = (Ship) obj;
-
-                    if (dock.getShip() == null) {
-                        dockNode.removeAllChildren();
-                        DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode("Empty");
-                        dockNode.add(shipNode);
-                        ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
-                    }
-
-                    // if the ship in dock is not ship in tree, replace
-                    if (dock.getShip() != ship) {
-
-                        dockNode.removeAllChildren();
-                        DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode(dock.getShip());
-                        dockNode.add(shipNode);
-
-                        shipNode.removeAllChildren();
-
-                        if (dock.getShip() != null) {
-                            // set jobs
-                            for (Job job : dock.getShip().getJobs()) {
-                                DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
-                                shipNode.add(jobNode);
-                            }
+                    // step into the docks node
+                    for (int j = 0; j < portNode.getChildCount(); j++) {
+                        Object obj = ((DefaultMutableTreeNode) portNode.getChildAt(j)).getUserObject();
+                        // make sure this was a dock
+                        if (obj != "Docks") {
+                            continue;
                         }
+                        DefaultMutableTreeNode docksNode = (DefaultMutableTreeNode) portNode.getChildAt(j);
 
-                        ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
+                        // for each dock, add a ship or an empty node as appropriate
+                        for (int k = 0; k < docksNode.getChildCount(); k++) {
+                            DefaultMutableTreeNode dockNode = (DefaultMutableTreeNode) docksNode.getChildAt(k);
+                            Dock dock = (Dock) ((DefaultMutableTreeNode) docksNode.getChildAt(k)).getUserObject();
+
+                            obj = ((DefaultMutableTreeNode) dockNode.getFirstChild()).getUserObject();
+                            if (obj instanceof String) {
+                                continue;
+                            }
+
+                            // get the ship of this dock
+                            Ship ship = (Ship) obj;
+
+
+                            // if the ship is null add an empty node
+                            if (dock.getShip() == null) {
+                                dockNode.removeAllChildren();
+                                DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode("Empty");
+                                dockNode.add(shipNode);
+                                ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
+                            }
+
+                            // if the ship in dock is not ship in tree, replace
+                            if (dock.getShip() != ship) {
+
+                                dockNode.removeAllChildren();
+                                DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode(dock.getShip());
+                                dockNode.add(shipNode);
+
+                                shipNode.removeAllChildren();
+
+                                if (dock.getShip() != null) {
+                                    synchronized (dock.getShip()) {
+                                        // set jobs
+                                        for (Job job : dock.getShip().getJobs()) {
+                                            synchronized (job) {
+                                                DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
+                                                shipNode.add(jobNode);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                ((DefaultTreeModel) tree.getModel()).nodeStructureChanged(shipNode);
+                            }
+
+                        }
                     }
                 }
+
+                for (int i = 0; i < tree.getRowCount(); i++) {
+                    tree.expandRow(i);
+                }
+
+                tree.revalidate();
+                tree.repaint();
+
             }
-        }
-
-
-        for (int i = 0; i < tree.getRowCount(); i++) {
-            tree.expandRow(i);
-        }
-
-        tree.repaint();
+        }).start();
     }
 
 
     /**
-     *
+     * Draws a Jtree according to the underlying data structure
      */
-    private void drawTree() {
+    private synchronized void drawTree() {
 
         // clear all
         root.removeAllChildren();
@@ -388,9 +409,13 @@ public class SeaPortUI {
                 DefaultMutableTreeNode shipNode = new DefaultMutableTreeNode(dock.getShip());
                 dockNode.add(shipNode);
 
-                for (Job job: dock.getShip().getJobs()) {
-                    DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
-                    shipNode.add(jobNode);
+                // add jobs to the ship
+                Ship ship = dock.getShip();
+                if (ship != null) {
+                    for (Job job : dock.getShip().getJobs()) {
+                        DefaultMutableTreeNode jobNode = new DefaultMutableTreeNode(job);
+                        shipNode.add(jobNode);
+                    }
                 }
 
             });
@@ -415,22 +440,13 @@ public class SeaPortUI {
 
         });
 
+        // note that the root has been changes and expand the new tree
         ((DefaultTreeModel)tree.getModel()).nodeStructureChanged(root);
         for (int i = 0; i < tree.getRowCount(); i++) {
             tree.expandRow(i);
         }
 
-        // kick off the tree updater
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                }
-                catch (InterruptedException e) {}
-                updateTree();
-            }
-        }).start();
-
+        updateTree();
     }
 
     /**
@@ -558,8 +574,6 @@ public class SeaPortUI {
                 break;
         }
 
-        // redraw the tree
-        drawTree();
     }
 
     class ProgressBarRenderer extends DefaultTreeCellRenderer {

@@ -16,9 +16,12 @@ public class SeaPort extends Thing implements Runnable {
     private ArrayList<Ship> que = new ArrayList<>();
     private ArrayList<Ship> ships = new ArrayList<>();
     private ArrayList<Person> persons = new ArrayList<>();
+    private Thread thread;
 
     public SeaPort(String name, int index, int parent) {
         super(name, index, parent);
+        thread = new Thread(this);
+        thread.start();
     }
 
     @Override
@@ -26,28 +29,40 @@ public class SeaPort extends Thing implements Runnable {
 
         while (true) {
 
+            boolean dockIsRunning = false;
             try {
                 Thread.sleep(1000);
             }
             catch (InterruptedException e) {}
 
-            docks.forEach(dock -> {
 
+            for (Dock dock : docks) {
                 Ship ship = dock.getShip();
-                if (ship != null) {
-                    if (ship.getThread().getState() == Thread.State.NEW) {
-                        ship.getThread().start();
-                    }
+
+                if (dock.getThread().isAlive()) {
+                    dockIsRunning = true;
                 }
 
-                if (ship == null || ship.getStatus() == Ship.Status.JOBS_COMPLETE) {
-                    if (!que.isEmpty()) {
-                        dock.addChild(que.remove(0));
-                    }
+                // place the next ship
+                if (!que.isEmpty() && (ship == null || ship.getStatus() == Ship.Status.JOBS_COMPLETE)) {
+                    dock.addChild(que.remove(0));
                 }
 
-            });
+                // place the next ship or kill the thread
+                else if (que.isEmpty() && ship == null) {
+
+                    if (dock.getThread().isAlive()) {
+                        dock.stopThread();
+                    }
+                }
+            }
+            // shut down if no dock is running
+            if (!dockIsRunning) {
+                break;
+            }
         }
+
+        return;
     }
 
     /**
@@ -153,5 +168,9 @@ public class SeaPort extends Thing implements Runnable {
 
     public ArrayList<Ship> getQue() {
         return que;
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 }

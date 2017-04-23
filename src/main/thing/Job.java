@@ -14,7 +14,7 @@ public class Job extends Thing implements Runnable{
     double duration;
     ArrayList<String> requirements = new ArrayList<>();
     private Thread thread;
-    private Status status = Status.SUSPENDED;
+    private Status status = Status.WAITING;
     private boolean goFlag = false;
     private int progress;
 
@@ -45,30 +45,35 @@ public class Job extends Thing implements Runnable{
     }
 
     @Override
-    public synchronized void run() {
+    public void run() {
         long runTime = 0;
 
         while (runTime < duration) {
-
             try {
                 Thread.sleep (1000);
             } catch (InterruptedException e) {}
 
+
             if (goFlag) {
                 status = Status.RUNNING;
-                runTime += 1;
+                runTime += 10;
                 Double d = (runTime / duration) * 100;
                 progress = d.intValue();
+            }
+
+            else if (status == Status.WAITING) {
+                continue;
             }
 
             else {
                 status = Status.SUSPENDED;
             }
-
         }
 
         progress = 100;
         status = Status.DONE;
+
+        return;
     }
 
     public void suspend() {
@@ -78,9 +83,14 @@ public class Job extends Thing implements Runnable{
     public void cancel() {
         goFlag = false;
         status = Status.DONE;
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-
+    public void begin() { goFlag = true; }
     /**
      * Performs a regex comparison to check for a match
      * @param pattern the pattern to match on

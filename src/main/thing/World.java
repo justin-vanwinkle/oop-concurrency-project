@@ -145,6 +145,17 @@ public class World extends Thing {
         return false;
     }
 
+    public boolean activePorts() {
+        boolean portsActive = false;
+
+        for (SeaPort port : ports) {
+            if (port.getThread().getState() != Thread.State.TERMINATED) {
+                portsActive = true;
+            }
+        }
+        return portsActive;
+    }
+
     /**
      * Creates a string representation of this class
      * @return a string representation of this class

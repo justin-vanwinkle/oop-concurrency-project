@@ -22,6 +22,7 @@ public abstract class Ship extends Thing implements Runnable {
     private ArrayList<Job> jobs = new ArrayList<>();
     private Thread thread;
     private Status status = Status.JOBS_PENDING;
+    private boolean isDocked;
 
     public Status getStatus() {
         return status;
@@ -66,11 +67,20 @@ public abstract class Ship extends Thing implements Runnable {
         this.width = width;
         this.draft = draft;
         thread = new Thread(this);
-//        thread.start();
+        thread.start();
     }
 
     @Override
     public void run() {
+        isDocked = false;
+
+        while (!isDocked) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 
         boolean allJobsComplete = false;
 
@@ -81,9 +91,16 @@ public abstract class Ship extends Thing implements Runnable {
                     Thread.sleep(100);
                 }
                 catch (InterruptedException e) {}
+
+                jobs.forEach(job -> {
+                    if (job.getStatus() == Job.Status.WAITING) {
+                        job.begin();
+                    }
+                });
+
             }
 
-            if (i == jobs.size()-1) {
+            if (i == jobs.size() - 1) {
                 allJobsComplete = true;
             }
         }
@@ -95,12 +112,18 @@ public abstract class Ship extends Thing implements Runnable {
             catch (InterruptedException e) {}
 
             if (allJobsComplete) {
-                System.out.println("Ship " + getName() + " has completed all jobs");
                 // set status and notify of completion
                 status = Status.JOBS_COMPLETE;
+                try {
+                    thread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 break;
             }
         }
+
+        return;
     }
 
     /**
@@ -140,6 +163,8 @@ public abstract class Ship extends Thing implements Runnable {
         return false;
     }
 
+    public void dock() { isDocked = true; }
+    public boolean isDocked() {return isDocked;}
     public Thread getThread() {
         return thread;
     }
