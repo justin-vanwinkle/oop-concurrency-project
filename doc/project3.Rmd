@@ -1,6 +1,6 @@
 ---
-title             : "Project 2: Sea Port Program"
-shorttitle        : "Project 2"
+title             : "Project 3: Sea Port Program"
+shorttitle        : "Project 3"
 
 author: 
   - name          : "Justin VanWinkle"
@@ -11,7 +11,7 @@ author:
 
 affiliation:
   - id            : ""
-    institution   : "9 April 2017"
+    institution   : "23 April 2017"
 
 author_note: >
   
@@ -38,10 +38,11 @@ library("papaja")
 # Design<F4>
 From a high level, this program has been built with a class that contains the UI separate from any workflow logic.  This paves the way for several simplistic approaches when concurrency is included into the program in a future iteration.  One such example would be creating the world using a thread that is separate from that of the Event Dispatch Thread that would be used by default when calling a function from an event listener that is attached to a swing component.  Such a separation becomes easily manageable when business logic and view logic remain isolated.
 
-## Decisions
+## Decisions 
 * I chose not to use the comparable interface on the Thing class, because I don't believe it is needed and I don't want dead code.
 * TDD was used for some areas of the program to ensure that changes in future iterations do not alter the functionality of those methods.
 * A map was used in the World class to track all objects for two main reasons.  First, the complexity of creating the model is greatly reduced since parent objects can be found without having to search for them.  Second, this allows for O(n) lookup time for any object that exists in the World.  So for the purposes of this class, the time needed to create the World is drastically reduced -- especially for very large input files.
+* Each class that uses a thread is left as responsible for its own thread.  This wasn't as much of a decision as it was a convention.
 
 ## Meanings
 The various classes, packages, variables, and methods in this program are organized in a logical manner that show good practices in object-oriented design.  Each of the items has been placed in such a way that it has some sort of direct relationship with its containing parent or its contained child.
@@ -54,11 +55,11 @@ Each class in the *thing* package as well as classes in the sub packages of *thi
 
 #### Other Classes
 The PortTime class, in a similar manner represents the time of a port.  Due to ambiguous requirements, however, the developer was unable to determine the intended use of this class.  Therefore, it is assumed that this class will be better integrated in a future iteration.
-
+ 
 ### Variables
 In each class, there are sets of instance variables that represent a *has-a* relationship between the class and the item that variable holds.  For instance, a SeaPort has a (or many) Dock(s).
 
-### Methods
+## Methods
 The SeaPortProgram class contains the heart of creating the world including all of the logic for parsing out the input file, creating the objects, and modeling a world that represents what is defined in the input file.  While the requirement documentation *suggests* that a scanner should be used, a string tokenizer was used instead.  While this adds some additional coding overhead, 
 
 # User's Guide
@@ -97,33 +98,50 @@ Sorting can be done on all lists and sub lists in the program.  For convenience,
 2. On the sort picking dialog, select the desired sort options and click `sort`.
 3. Repeat until the desired sorts are achieved.
 
-## Special Features
-Nothing notable.
+### How to cancel or suspend a job
+_Note_: Cancelled jobs are handled similar to a completed job, but have no additional effort applied.  This allows the ship to undock.
+1. While jobs are running, click "Suspend" or "Cancel".
+2. Enter the index of the job you wish to interact with.
+3. Click "Ok" and note that the job has stopped progressing.
 
-# Test Plan 
+## Special Features
+The JTree automatically refreshes its Ship and Job nodes to show progress in a near-realtime manner.  If a new file is loaded, the JTree abandoned and reloaded with the new incoming data model.
+ 
+# Test Plan  
 1. Base Case
     + **Input:** (1.txt) Using the input file outlined in the requirements documentation
-    + **Expected:** Ouput that matches the output outlined in the documentation.
-    + **Result:** An exact match between the expected output and the actual output.
+    + **Expected:** Ouput that matches the output outlined in the documentation.  And All ships will be immediately undocked.
+    + **Result:** An exact match between the expected output and the actual output.  And all ships are immediately undocked.
 2. Very large input file
     + **Input:** (2.txt) Using an input file that is extremely large to ensure no allocation issues
     + **Expected:** No errors and output that displays an appropriate data structure to match the input.
-    + **Result:** No errors thrown and output matches an appropriate construction of input.
+    + **Result:** An out of memory error is thrown and no further actions are completed by the program.  This is caused by the OS limitation on the number of threads it will allow to be thrown on the allocated heap.
 3. Searching "ar"
     * **Input:** (1.txt) Containing names with `\*ar\*` and `Ar\*`.
     * **Expected:** Matches with names only containing `\*ar\*`.
     * **Result:** Search returns only names that contain `\*ar\*`. (See figure 1)
 4. Sorting All Ascending by name
-    * **Input:** (2.txt) An input file containing multiple ports.
+    * **Input:** (4.txt) An input file containing multiple ports.
     * **Expected:** All items in the tree will be sorted in ascending order by name.
     * **Result:** All items are sorted in ascending order in the tree. (See figure 2)
 5. Unit tests
     + Unit tests were written to ensure that units of code perform the same basic function even after changes are made.
     + **Expected:** All unit tests should pass.
     + **Result:** All unit tests pass.
+6. Small Data Set
+    * **Input** (4.txt) An input file containing a small set of data
+    * **Expected:** All jobs will progress to completion and docked ships will be replaced with ships in que.
+    * **Result:** All ships have all jobs completed while docked.
+7. Large Data Set
+    * **Input** (3.txt) An input file containing a relatively large set of data
+    * **Expected:** All jobs will progress to completion and docked ships will be replaced with ships in que.
+    * **Result:** All ships have all jobs completed while docked.
 
 # Lessons Learned
 In the coming sections, consideration will be given to particular pain points, gleanings, and takeaways.
+
+## Concurrency
+I haven't worked with concurrency in Java for several years.  Having said that, I have been using GoLang at work for the past year and have come to love the implementations of the libs surrounding concurrency -- so much so that it was painful to not have go routines and channels.  Java has, however, become slightly nicer in this area with the introduction of lambda functions.  I haven't looked into it, but it almost makes me think that functions can be handled as first-class citizens in Java now.  I'd be interested to know!
 
 ## About This Documentation
 Since discovering Pandoc, I have written all of my professional documentation and papers in markdown and used Pandoc to convert them to whatever end format I require.  Markdown allows me to focus on content rather than formatting and thus saves great amounts of time.  One particular hurdle in writing this documentation was finding a way to use \LaTeX\ to handle the formatting in a way that was consistent with the APA style guide.  As a result, I came across a set of tools that allows me to continue using Pandoc to pipe everything through a template that \LaTeX\ uses to ultimately format my paper perfectly according to the APA style -- and all I ever did was write this in markdown with some yaml front matter.  A glorious combination when paired with Vim. 
@@ -135,6 +153,7 @@ While I purposefully avoid Java's built in UI libraries, it came as no surprise 
 
 ### JTree
 I found JTree to be easy to work with and rather intuitive.  It did force me to refactor all of my `toString()` methods -- but for the better.
+JTree has proven to be quite painful when working with concurrency.  Since it is modeling a wide array of data, it is easy to miss a section that should be synchronized.
 
 ### JSplitPane
 Once again, easy and intuitive.  I don't quite like JSplitPane, however, because I feel that it paves the way for a bad UX.  That's purely opinion at this point, though.
@@ -144,13 +163,17 @@ Project 1: In a future iteration, I would like to focus on pushing all UI driven
 
 Project 2: The main UI class is getting cumbersome.  I would like to see it be split out into a second class as appropriate.  The two UI classes have some repetitive code that could go into a static method of a utility class.  The search could allow for more robust options such as searching only on Persons.
 
+Project 3: Similar to the previous project, I feel that the primary UI file is getting very cumbersome.  While it is fairly well split into functional areas, it is calling desperately for a refactor to place actions and utils into a util class.  Some additional work should also be done to clean up some small bugs with the JTree not rendering the nodes properly.  I think this could be fixed by using an invokeLater() or using a graphics buffer.
+
 # Figures
 
 ![Search Test](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2search.png)
 
 ![Sort Test](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2sort.png)
 
-![UML Diagram](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/p2diagram.png)
+![Running Jobs](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/3running.png )
+
+![UML Diagram](/Users/vanwinklej/workspace/UMUC/oop-concurrency/project/doc/diagram.png)
 
 \setlength{\parindent}{-0.5in}
 \setlength{\leftskip}{0.5in}
