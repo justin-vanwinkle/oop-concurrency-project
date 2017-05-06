@@ -10,7 +10,8 @@ package main.thing;
 import java.util.regex.Pattern;
 
 public class Person extends Thing {
-    String skill;
+    private String skill;
+    private boolean isAvailable = true;
 
     /**
      * The constructor for this class
@@ -35,7 +36,7 @@ public class Person extends Thing {
         Pattern r = Pattern.compile(pattern);
 
         // check the skill for a match
-        if (r.matcher(skill).find()) {
+        if (r.matcher(getSkill()).find()) {
             return true;
         }
         // check the super class for a match
@@ -52,7 +53,20 @@ public class Person extends Thing {
      */
     @Override
     public String toString() {
-        return "Person: " + super.toString() + " " + skill;
+        return "Person: " + super.toString() + " " + getSkill();
     }
 
+    public String getSkill() {
+        return skill;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        synchronized (this) {
+            isAvailable = available;
+        }
+    }
 }

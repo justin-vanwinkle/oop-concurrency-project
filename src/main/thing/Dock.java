@@ -53,6 +53,7 @@ public class Dock extends Thing implements Runnable{
 
                 // if jobs complete, release the ship
                 if (ship.getStatus() == Ship.Status.JOBS_COMPLETE) {
+                    ship.undock();
                     ship = null;
                 }
 
@@ -73,8 +74,6 @@ public class Dock extends Thing implements Runnable{
         // if this is a ship, place it in this dock
         if (child instanceof Ship) {
             ship = (Ship) child;
-            ship.setStatus(Ship.Status.JOBS_IN_PROGRESS);
-            ship.getJobs().forEach(job -> job.toggleGoFlag());
             return true;
         }
 

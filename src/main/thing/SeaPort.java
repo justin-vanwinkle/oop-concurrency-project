@@ -9,6 +9,8 @@ package main.thing;
 
 
 import main.thing.ship.Ship;
+
+import javax.sound.midi.Soundbank;
 import java.util.*;
 
 public class SeaPort extends Thing implements Runnable {
@@ -46,11 +48,52 @@ public class SeaPort extends Thing implements Runnable {
             catch (InterruptedException e) {}
 
             for (Dock dock : docks) {
-                Ship ship = dock.getShip();
 
                 // note that a dock is running
                 if (dock.getThread().isAlive()) {
                     dockIsRunning = true;
+                }
+
+                Ship ship = dock.getShip();
+
+                // build crew for job and start job
+                if (ship != null) {
+                    for (Job job : ship.getJobs()) {
+
+                        if (job.getStatus().equals(Job.Status.WAITING)) {
+
+                            // find a person to fit the requirement
+                            for (String skill : job.getRequirements()) {
+
+                                if (!skillHasCoverage(skill, job.getRequirements())) {
+                                    if (job.getName().contains("89_35_68")) {
+                                        System.out.println("cancelling " + job.getName());
+                                    }
+                                    job.cancel();
+                                    break;
+                                }
+
+                                for (Person person : persons) {
+                                    if (person.getSkill().equals(skill)) {
+                                        synchronized (person) {
+                                            if (person.isAvailable()) {
+                                                job.addCrewMember(person);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            // if the crew fulfills the requirements, lock them down and start the job
+                            if (job.getJobCrew().size() == job.getRequirements().size() || job.getRequirements().size() == 0) {
+                                job.begin();
+                                ship.setStatus(Ship.Status.JOBS_IN_PROGRESS);
+                            }
+                            // otherwise, let the crew go free
+                            else {
+                                job.releaseCrew();
+                            }
+                        }
+                    }
                 }
 
                 // place the next ship
@@ -148,6 +191,34 @@ public class SeaPort extends Thing implements Runnable {
 
         return false;
     }
+
+    public boolean skillHasCoverage(String skill, ArrayList<String> requirements) {
+
+        // count how many needed
+        int numNeeded = 0;
+        for (String s : requirements) {
+            if (s.equals(skill)) {
+                numNeeded++;
+            }
+        }
+
+        // count the number of persons with this skill
+        int qualifiedPersons = 0;
+        for (Person person : persons) {
+            if (person.getSkill().equals(skill)) {
+                qualifiedPersons++;
+            }
+        }
+
+
+        if (qualifiedPersons >= numNeeded) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     /**
      * Gets the docks of this port

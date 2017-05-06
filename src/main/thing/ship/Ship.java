@@ -86,30 +86,17 @@ public abstract class Ship extends Thing implements Runnable {
             }
         }
 
-        // watch jobs for completion
-        for (int i=0; i<jobs.size(); i++) {
-
-            // hold on a job until it completes, the check the rest
-            while (jobs.get(i).getStatus() != Job.Status.DONE) {
+        // wait until all jobs complete
+        for (Job job : jobs) {
+            while (job.getStatus() != Job.Status.DONE) {
                 try {
                     Thread.sleep(100);
                 }
                 catch (InterruptedException e) {}
-
-                // ensure that all jobs started
-                jobs.forEach(job -> {
-                    if (job.getStatus() == Job.Status.WAITING) {
-                        job.begin();
-                    }
-                });
-
-            }
-
-            // raise completion flag
-            if (i == jobs.size() - 1) {
-                status = Status.JOBS_COMPLETE;
             }
         }
+
+        status = Status.JOBS_COMPLETE;
 
         return;
     }
@@ -164,6 +151,10 @@ public abstract class Ship extends Thing implements Runnable {
      * raises the docked flag
      */
     public void dock() { isDocked = true; }
+
+    public void undock() {
+        isDocked = false;
+    }
 
     /**
      * Checks if the docked flag is raised

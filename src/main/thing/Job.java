@@ -12,11 +12,12 @@ import java.util.regex.Pattern;
 
 public class Job extends Thing implements Runnable{
     double duration;
-    ArrayList<String> requirements = new ArrayList<>();
+    private ArrayList<String> requirements = new ArrayList<>();
     private Thread thread;
     private Status status = Status.WAITING;
     private boolean goFlag = false;
     private int progress;
+    private ArrayList<Person> jobCrew = new ArrayList<>();
 
     public Status getStatus() {
         return status;
@@ -24,6 +25,19 @@ public class Job extends Thing implements Runnable{
 
     public int getProgress() {
         return progress;
+    }
+
+    public ArrayList<String> getRequirements() {
+        return requirements;
+    }
+
+    public ArrayList<Person> getJobCrew() {
+        return jobCrew;
+    }
+    public boolean addCrewMember(Person person) {
+        person.setAvailable(false);
+        return jobCrew.add(person);
+
     }
 
     public enum Status {RUNNING, SUSPENDED, WAITING, DONE}
@@ -66,11 +80,11 @@ public class Job extends Thing implements Runnable{
                 progress = d.intValue();
             }
 
-            else if (status == Status.WAITING) {
+            else if (getStatus() == Status.WAITING) {
                 continue;
             }
 
-            else if (status == Status.DONE) {
+            else if (getStatus() == Status.DONE) {
                 break;
             }
 
@@ -79,11 +93,22 @@ public class Job extends Thing implements Runnable{
             }
         }
 
-        // duration has passed, clean up
+        // clean up and release crew
         progress = 100;
         status = Status.DONE;
 
+        releaseCrew();
+
         return;
+    }
+
+    public void releaseCrew() {
+        for (Person person : jobCrew) {
+            synchronized (person) {
+                person.setAvailable(true);
+            }
+        }
+        jobCrew.removeAll(jobCrew);
     }
 
     /**
@@ -97,8 +122,8 @@ public class Job extends Thing implements Runnable{
      * Sets the progress of a job to halt and sets the job as complete
      */
     public void cancel() {
-        goFlag = false;
         status = Status.DONE;
+        goFlag = false;
     }
 
     /**
@@ -122,7 +147,7 @@ public class Job extends Thing implements Runnable{
         }
 
         // iterate over all of the requirements and check for matches.
-        for (String req : requirements) {
+        for (String req : getRequirements()) {
             if (r.matcher(req).find()) {
                 return true;
             }
@@ -140,7 +165,7 @@ public class Job extends Thing implements Runnable{
         StringBuilder sb = new StringBuilder("Job: " + super.toString() + " " + duration);
 
         // iterate over the requirements and append them to the string
-        for (String requirement: requirements) {
+        for (String requirement: getRequirements()) {
             sb.append(" " + requirement);
         }
         return sb.toString();
