@@ -63,6 +63,8 @@ public class Job extends Thing implements Runnable{
      */
     @Override
     public void run() {
+        delayExecution();
+
         long runTime = 0;
 
         // run until the duration has passed
@@ -122,6 +124,8 @@ public class Job extends Thing implements Runnable{
      * Sets the progress of a job to halt and sets the job as complete
      */
     public void cancel() {
+        progress = 100;
+        releaseCrew();
         status = Status.DONE;
         goFlag = false;
     }
@@ -129,7 +133,20 @@ public class Job extends Thing implements Runnable{
     /**
      * Sets the job to begin progressing
      */
-    public void begin() { goFlag = true; }
+    public synchronized void begin() {
+        goFlag = true;
+        notify();
+    }
+
+    public synchronized void delayExecution() {
+        while (!goFlag) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Performs a regex comparison to check for a match
