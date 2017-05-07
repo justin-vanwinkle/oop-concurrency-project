@@ -38,6 +38,7 @@ public class SeaPort extends Thing implements Runnable {
     @Override
     public synchronized void run() {
 
+        // run until break
         while (true) {
 
             boolean dockIsRunning = false;
@@ -65,11 +66,13 @@ public class SeaPort extends Thing implements Runnable {
                             // find a person to fit the requirement
                             for (String skill : job.getRequirements()) {
 
+                                // check for coverage of this skill
                                 if (!skillHasCoverage(skill, job.getRequirements())) {
                                     job.cancel();
                                     break;
                                 }
 
+                                // attempt to build a crew
                                 for (Person person : persons) {
                                     if (person.getSkill().equals(skill)) {
                                         synchronized (person) {
@@ -85,7 +88,7 @@ public class SeaPort extends Thing implements Runnable {
                                 job.begin();
                                 ship.setStatus(Ship.Status.JOBS_IN_PROGRESS);
                             }
-                            // otherwise, let the crew go free
+                            // otherwise, don't block the resources
                             else {
                                 job.releaseCrew();
                             }
@@ -189,55 +192,14 @@ public class SeaPort extends Thing implements Runnable {
         return false;
     }
 
-    public ArrayList<String> skillsInUse() {
-        ArrayList<String> skills = new ArrayList<>();
 
-        for (Person person : persons) {
-            if (!person.isAvailable()) {
-                skills.add(person.getSkill());
-            }
-        }
-
-        return skills;
-    }
-
-    public ArrayList<String> skillsRequested() {
-        ArrayList<String> skills = new ArrayList<>();
-
-        for (Dock dock : docks) {
-            for (Job job : dock.getShip().getJobs()) {
-                if(job.getStatus().equals(Job.Status.WAITING)) {
-                    for (String skill : job.getRequirements()){
-                        skills.add(skill);
-                    }
-                }
-            }
-        }
-        return skills;
-    }
-
-    public ArrayList<Person> availablePersons() {
-        ArrayList<Person> persons = new ArrayList<>();
-
-        for (Person person : persons) {
-            if (person.isAvailable()) {
-                persons.add(person);
-            }
-        }
-        return persons;
-    }
-
-    public ArrayList<Person> unavailablePersons() {
-        ArrayList<Person> persons = new ArrayList<>();
-
-        for (Person person : persons) {
-            if (!person.isAvailable()) {
-                persons.add(person);
-            }
-        }
-        return persons;
-    }
-
+    /**
+     * Compares the persons with the list of required skills to ensure that the port has enough skill coverage to
+     * support the skill.
+     * @param skill the skill to be supported
+     * @param requirements the required skills for a job
+     * @return true if this port can cover this skill, otherwise false
+     */
     public boolean skillHasCoverage(String skill, ArrayList<String> requirements) {
 
         // count how many needed

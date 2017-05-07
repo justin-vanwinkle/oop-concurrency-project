@@ -62,14 +62,26 @@ public class Person extends Thing {
 
     }
 
+    /**
+     * gets the skill of person
+     * @return the skill of person
+     */
     public String getSkill() {
         return skill;
     }
 
+    /**
+     * gets the availability of person
+     * @return the value of isAvalable
+     */
     public boolean isAvailable() {
         return isAvailable;
     }
 
+    /**
+     * sets the availability of the person
+     * @param available the value that should be set
+     */
     public void setAvailable(boolean available) {
         synchronized (this) {
             isAvailable = available;

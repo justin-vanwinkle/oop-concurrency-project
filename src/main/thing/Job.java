@@ -19,27 +19,6 @@ public class Job extends Thing implements Runnable{
     private int progress;
     private ArrayList<Person> jobCrew = new ArrayList<>();
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public int getProgress() {
-        return progress;
-    }
-
-    public ArrayList<String> getRequirements() {
-        return requirements;
-    }
-
-    public ArrayList<Person> getJobCrew() {
-        return jobCrew;
-    }
-    public boolean addCrewMember(Person person) {
-        person.setAvailable(false);
-        return jobCrew.add(person);
-
-    }
-
     public enum Status {RUNNING, SUSPENDED, WAITING, DONE}
 
     /**
@@ -104,6 +83,9 @@ public class Job extends Thing implements Runnable{
         return;
     }
 
+    /**
+     * releases all persons assigned to this job
+     */
     public void releaseCrew() {
         for (Person person : jobCrew) {
             synchronized (person) {
@@ -189,12 +171,46 @@ public class Job extends Thing implements Runnable{
     }
 
     /**
-     * Toggles the progress of a job
-     * @return
+     * gets the status of the job
+     * @return the status of the job
      */
-    public boolean toggleGoFlag() {
-        goFlag = !goFlag;
-        return goFlag;
+    public Status getStatus() {
+        return status;
+    }
+
+    /**
+     * gets the progress of the job
+     * @return the progress of the job
+     */
+    public int getProgress() {
+        return progress;
+    }
+
+    /**
+     * gets the requirements of the job
+     * @return the requirements of the job
+     */
+    public ArrayList<String> getRequirements() {
+        return requirements;
+    }
+
+    /**
+     * gets the crew of the job
+     * @return the crew of the job
+     */
+    public ArrayList<Person> getJobCrew() {
+        return jobCrew;
+    }
+
+    /**
+     * Adds a person to the job
+     * @param person the person to be added
+     * @return true if added, otherwise false
+     */
+    public boolean addCrewMember(Person person) {
+        person.setAvailable(false);
+        return jobCrew.add(person);
+
     }
 
     /**

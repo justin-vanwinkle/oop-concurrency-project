@@ -24,11 +24,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SeaPort.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SeaPort.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/thing/SeaPort.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-10">
-              <caret line="45" column="30" lean-forward="false" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -37,28 +37,8 @@
       <file leaf-file-name="Ship.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/thing/ship/Ship.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="82" column="29" lean-forward="true" selection-start-line="82" selection-start-column="29" selection-end-line="82" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SeaPortProgram.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/SeaPortProgram.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="757">
-              <caret line="185" column="0" lean-forward="true" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SeaPortUI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/ui/SeaPortUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="309" column="34" lean-forward="false" selection-start-line="309" selection-start-column="34" selection-end-line="309" selection-end-column="34" />
+            <state relative-caret-position="1455">
+              <caret line="153" column="0" lean-forward="true" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -67,34 +47,24 @@
       <file leaf-file-name="Person.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/thing/Person.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="810">
-              <caret line="60" column="9" lean-forward="true" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="9" />
+            <state relative-caret-position="613">
+              <caret line="82" column="52" lean-forward="false" selection-start-line="82" selection-start-column="52" selection-end-line="82" selection-end-column="52" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Job.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Job.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/thing/Job.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="64" column="24" lean-forward="false" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <element signature="e#729#730#0" expanded="true" />
-                <element signature="e#764#765#0" expanded="true" />
-                <element signature="e#809#810#0" expanded="true" />
-                <element signature="e#839#840#0" expanded="true" />
+                <element signature="e#4889#4890#0" expanded="true" />
+                <element signature="e#4924#4925#0" expanded="true" />
+                <element signature="e#5052#5053#0" expanded="true" />
+                <element signature="e#5082#5083#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="3.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/input/3.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="282" column="25" lean-forward="false" selection-start-line="282" selection-start-column="20" selection-end-line="282" selection-end-column="25" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -178,10 +148,10 @@
         <option value="$PROJECT_DIR$/src/main/SeaPortProgram.java" />
         <option value="$PROJECT_DIR$/src/main/thing/World.java" />
         <option value="$PROJECT_DIR$/src/main/thing/Dock.java" />
-        <option value="$PROJECT_DIR$/src/main/thing/Person.java" />
         <option value="$PROJECT_DIR$/src/main/ui/SeaPortUI.java" />
         <option value="$PROJECT_DIR$/src/main/thing/ship/Ship.java" />
         <option value="$PROJECT_DIR$/src/main/thing/SeaPort.java" />
+        <option value="$PROJECT_DIR$/src/main/thing/Person.java" />
         <option value="$PROJECT_DIR$/src/main/thing/Job.java" />
       </list>
     </option>
@@ -908,7 +878,7 @@
       <workItem from="1492465852843" duration="254000" />
       <workItem from="1492862648902" duration="77817000" />
       <workItem from="1493155423831" duration="3000" />
-      <workItem from="1494071155991" duration="21895000" />
+      <workItem from="1494071155991" duration="23607000" />
     </task>
     <servers />
   </component>
@@ -945,7 +915,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="234164000" />
+    <option name="totallyTimeSpent" value="235876000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
@@ -971,8 +941,8 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19306931" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1315229" sideWeight="0.5092025" order="11" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42376238" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16240682" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.09009901" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22736955" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22871287" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
@@ -1233,192 +1203,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="uml://JAVA/main">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement>main</OriginalElement>
-          <nodes>
-            <node x="329.0" y="289.0">main.thing.Job</node>
-            <node x="0.0" y="355.0">main.thing.Dock</node>
-            <node x="30.803303303303323" y="630.6801801801801">main.portTime.PortTime</node>
-            <node x="764.0" y="909.0">main.ui.SortPicker</node>
-            <node x="1587.7702702702702" y="654.1726726726727">main.ui.SeaPortUI</node>
-            <node x="1347.0" y="735.0">main.thing.ship.Ship.Status</node>
-            <node x="1060.0" y="701.0">main.thing.ship.CargoShip</node>
-            <node x="1910.9999999999998" y="322.0">main.thing.World</node>
-            <node x="1452.0" y="300.5">main.thing.SeaPort</node>
-            <node x="1244.0" y="909.0">main.SeaPortProgram</node>
-            <node x="899.75" y="0.0">main.thing.Thing</node>
-            <node x="1847.7702702702702" y="1356.7732732732734">main.ui.SeaPortUI.ProgressBarRenderer</node>
-            <node x="669.75" y="701.0">main.thing.ship.PassengerShip</node>
-            <node x="759.0" y="399.5">main.thing.Person</node>
-            <node x="955.0" y="267.0">main.thing.ship.Ship</node>
-            <node x="454.5" y="724.0">main.thing.Job.Status</node>
-          </nodes>
-          <notes />
-          <edges>
-            <edge source="main.SeaPortProgram" target="main.thing.World">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.ship.Ship" target="main.thing.ship.Ship.Status">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.SeaPortProgram" target="main.ui.SeaPortUI">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.SeaPort" target="main.thing.Dock">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.Job" target="main.thing.Job.Status">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.Dock" target="main.thing.Thing">
-              <point x="0.0" y="-104.0" />
-              <point x="154.5" y="227.0" />
-              <point x="919.8333333333334" y="227.0" />
-              <point x="-100.41666666666663" y="103.5" />
-            </edge>
-            <edge source="main.ui.SeaPortUI" target="main.ui.SortPicker">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.ship.Ship" target="main.thing.Thing">
-              <point x="0.0" y="-192.0" />
-              <point x="1193.5" y="247.0" />
-              <point x="1040.3333333333333" y="247.0" />
-              <point x="20.083333333333258" y="103.5" />
-            </edge>
-            <edge source="main.thing.Person" target="main.thing.Thing">
-              <point x="0.0" y="-59.5" />
-              <point x="847.0" y="247.0" />
-              <point x="1000.1666666666666" y="247.0" />
-              <point x="-20.08333333333337" y="103.5" />
-            </edge>
-            <edge source="main.ui.SeaPortUI" target="main.ui.SeaPortUI.ProgressBarRenderer">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.World" target="main.thing.SeaPort">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.SeaPort" target="main.thing.ship.Ship">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.SeaPortProgram" target="main.thing.Dock">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.ship.Ship" target="main.portTime.PortTime">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.SeaPortProgram" target="main.thing.ship.PassengerShip">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.ui.SeaPortUI.ProgressBarRenderer" target="main.ui.SeaPortUI">
-              <point x="0.0" y="-48.5" />
-              <point x="0.0" y="323.5" />
-            </edge>
-            <edge source="main.SeaPortProgram" target="main.thing.ship.CargoShip">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.World" target="main.portTime.PortTime">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.Job" target="main.thing.Thing">
-              <point x="0.0" y="-170.0" />
-              <point x="534.0" y="237.0" />
-              <point x="960.0" y="237.0" />
-              <point x="-60.25" y="103.5" />
-            </edge>
-            <edge source="main.thing.ship.Ship" target="main.thing.Job">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.ship.CargoShip" target="main.thing.ship.Ship">
-              <point x="0.0" y="-81.5" />
-              <point x="0.0" y="192.0" />
-            </edge>
-            <edge source="main.thing.SeaPort" target="main.thing.Person">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.ship.PassengerShip" target="main.thing.ship.Ship">
-              <point x="0.0" y="-81.5" />
-              <point x="836.75" y="676.0" />
-              <point x="1034.5" y="676.0" />
-              <point x="-159.0" y="192.0" />
-            </edge>
-            <edge source="main.thing.SeaPort" target="main.thing.Thing">
-              <point x="0.0" y="-158.5" />
-              <point x="1671.5" y="237.0" />
-              <point x="1080.5" y="237.0" />
-              <point x="60.25" y="103.5" />
-            </edge>
-            <edge source="main.ui.SortPicker" target="main.ui.SeaPortUI">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.Job.Status" target="main.thing.Job">
-              <point x="0.0" y="-58.5" />
-              <point x="0.0" y="170.0" />
-            </edge>
-            <edge source="main.ui.SeaPortUI" target="main.SeaPortProgram">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.SeaPortProgram" target="main.thing.Job">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.World" target="main.thing.Thing">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.SeaPortProgram" target="main.thing.Person">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.thing.ship.Ship.Status" target="main.thing.ship.Ship">
-              <point x="0.0" y="-47.5" />
-              <point x="1449.5" y="676.0" />
-              <point x="1352.5" y="676.0" />
-              <point x="159.0" y="192.0" />
-            </edge>
-            <edge source="main.thing.Dock" target="main.thing.ship.Ship">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-            <edge source="main.SeaPortProgram" target="main.thing.SeaPort">
-              <point x="0.0" y="0.0" />
-              <point x="0.0" y="0.0" />
-            </edge>
-          </edges>
-          <settings layout="Hierarchic Group" zoom="0.451831750339213" x="1154.0" y="1047.0" />
-          <SelectedNodes />
-          <Categories>
-            <Category>Fields</Category>
-            <Category>Inner Classes</Category>
-            <Category>Constructors</Category>
-            <Category>Properties</Category>
-            <Category>Methods</Category>
-          </Categories>
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/portTime/PortTime.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -1459,17 +1243,56 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/thing/ship/Ship.java">
+    <entry file="uml://JAVA/main">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement>main</OriginalElement>
+          <nodes>
+            <node x="" y="">main.thing.Job</node>
+            <node x="" y="">main.thing.Dock</node>
+            <node x="" y="">main.portTime.PortTime</node>
+            <node x="" y="">main.ui.SortPicker</node>
+            <node x="" y="">main.ui.SeaPortUI</node>
+            <node x="" y="">main.thing.ship.Ship.Status</node>
+            <node x="" y="">main.thing.ship.CargoShip</node>
+            <node x="" y="">main.thing.World</node>
+            <node x="" y="">main.thing.SeaPort</node>
+            <node x="" y="">main.SeaPortProgram</node>
+            <node x="" y="">main.ui.SeaPortUI.ProgressBarRenderer</node>
+            <node x="" y="">main.thing.Thing</node>
+            <node x="" y="">main.thing.ship.PassengerShip</node>
+            <node x="" y="">main.thing.Person</node>
+            <node x="" y="">main.thing.ship.Ship</node>
+            <node x="" y="">main.thing.Job.Status</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="0.24836601307189543" x="1464.0" y="1520.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Inner Classes</Category>
+            <Category>Fields</Category>
+            <Category>Constructors</Category>
+            <Category>Methods</Category>
+            <Category>Properties</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/thing/SeaPort.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="82" column="29" lean-forward="true" selection-start-line="82" selection-start-column="29" selection-end-line="82" selection-end-column="29" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/SeaPortProgram.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="757">
+        <state relative-caret-position="570">
           <caret line="185" column="0" lean-forward="true" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
           <folding />
         </state>
@@ -1477,38 +1300,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/ui/SeaPortUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
+        <state relative-caret-position="231">
           <caret line="309" column="34" lean-forward="false" selection-start-line="309" selection-start-column="34" selection-end-line="309" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/thing/ship/Ship.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1455">
+          <caret line="153" column="0" lean-forward="true" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/thing/Person.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="60" column="9" lean-forward="true" selection-start-line="60" selection-start-column="9" selection-end-line="60" selection-end-column="9" />
+        <state relative-caret-position="613">
+          <caret line="82" column="52" lean-forward="false" selection-start-line="82" selection-start-column="52" selection-end-line="82" selection-end-column="52" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/thing/Job.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="64" column="24" lean-forward="false" selection-start-line="64" selection-start-column="24" selection-end-line="64" selection-end-column="24" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#729#730#0" expanded="true" />
-            <element signature="e#764#765#0" expanded="true" />
-            <element signature="e#809#810#0" expanded="true" />
-            <element signature="e#839#840#0" expanded="true" />
+            <element signature="e#4889#4890#0" expanded="true" />
+            <element signature="e#4924#4925#0" expanded="true" />
+            <element signature="e#5052#5053#0" expanded="true" />
+            <element signature="e#5082#5083#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/thing/SeaPort.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-10">
-          <caret line="45" column="30" lean-forward="false" selection-start-line="45" selection-start-column="30" selection-end-line="45" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
