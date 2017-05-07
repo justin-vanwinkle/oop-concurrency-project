@@ -43,7 +43,7 @@ public class SeaPort extends Thing implements Runnable {
             boolean dockIsRunning = false;
 
             try {
-                Thread.sleep(1000);
+                Thread.sleep(100);
             }
             catch (InterruptedException e) {}
 
@@ -66,9 +66,6 @@ public class SeaPort extends Thing implements Runnable {
                             for (String skill : job.getRequirements()) {
 
                                 if (!skillHasCoverage(skill, job.getRequirements())) {
-                                    if (job.getName().contains("89_35_68")) {
-                                        System.out.println("cancelling " + job.getName());
-                                    }
                                     job.cancel();
                                     break;
                                 }
@@ -190,6 +187,55 @@ public class SeaPort extends Thing implements Runnable {
         }
 
         return false;
+    }
+
+    public ArrayList<String> skillsInUse() {
+        ArrayList<String> skills = new ArrayList<>();
+
+        for (Person person : persons) {
+            if (!person.isAvailable()) {
+                skills.add(person.getSkill());
+            }
+        }
+
+        return skills;
+    }
+
+    public ArrayList<String> skillsRequested() {
+        ArrayList<String> skills = new ArrayList<>();
+
+        for (Dock dock : docks) {
+            for (Job job : dock.getShip().getJobs()) {
+                if(job.getStatus().equals(Job.Status.WAITING)) {
+                    for (String skill : job.getRequirements()){
+                        skills.add(skill);
+                    }
+                }
+            }
+        }
+        return skills;
+    }
+
+    public ArrayList<Person> availablePersons() {
+        ArrayList<Person> persons = new ArrayList<>();
+
+        for (Person person : persons) {
+            if (person.isAvailable()) {
+                persons.add(person);
+            }
+        }
+        return persons;
+    }
+
+    public ArrayList<Person> unavailablePersons() {
+        ArrayList<Person> persons = new ArrayList<>();
+
+        for (Person person : persons) {
+            if (!person.isAvailable()) {
+                persons.add(person);
+            }
+        }
+        return persons;
     }
 
     public boolean skillHasCoverage(String skill, ArrayList<String> requirements) {

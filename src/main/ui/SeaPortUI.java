@@ -307,7 +307,7 @@ public class SeaPortUI {
         new Thread(() -> {
             while (spp.getWorld().activePorts()) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                 }
 

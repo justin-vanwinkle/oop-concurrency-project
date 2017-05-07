@@ -53,7 +53,13 @@ public class Person extends Thing {
      */
     @Override
     public String toString() {
-        return "Person: " + super.toString() + " " + getSkill();
+        if (isAvailable) {
+            return "(Available) Person: " + super.toString() + " " + getSkill();
+        }
+        else {
+            return "(Unavailable) Person: " + super.toString() + " " + getSkill();
+        }
+
     }
 
     public String getSkill() {

@@ -62,7 +62,7 @@ public class Job extends Thing implements Runnable{
      * The workflow for the Job method
      */
     @Override
-    public void run() {
+    public synchronized void run() {
         delayExecution();
 
         long runTime = 0;
